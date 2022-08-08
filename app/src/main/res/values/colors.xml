@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="grey1">#F9F9FB</color>
+    <color name="grey2">#F0EFF1</color>
+    <color name="grey3">#DEDEE7</color>
+    <color name="grey4">#ADADBA</color>
+    <color name="gray4">#F0F0F6</color>
+    <color name="dark_gray">#8E8E93</color>
+    <color name="grey4_transparent">#66ADADBA</color>
+    <color name="grey5">#787787</color>
+    <color name="grey6">#E0E0E0</color>
+    <color name="grey5_transparent">#4D787787</color>
+    <color name="grey7">#F7F7F7</color>
+    <color name="grey8">#F4F4F5</color>
+    <color name="black">#170C12</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="search_field_color_bright">#2b1e29</color>
+    <color name="dialog_background_color">#302232</color>
+    <color name="bright_icon_color">#f3e8f2</color>
+    <color name="text_color_dark">#655863</color>
+    <color name="text_color_bright">#c3bcc3</color>
+    <color name="selected_circle_color">#99306c</color>
+    <color name="primaryRedColor">#f65751</color>
+    <color name="unselected_circle_color">#6a2861</color>
+    <color name="theme_background_color">#241722</color>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/banner_iv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/banner_image_height"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+    <TextView
+        android:id="@+id/banner_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/banner_iv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="@dimen/stand_margin_15dp"
+        android:paddingEnd="@dimen/stand_margin_15dp"
+        android:gravity="center"
+        android:text="Sample Text"
+        android:textSize="@dimen/standp_text_size_24sp"
+        android:layout_marginTop="@dimen/stand_margin_15dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
