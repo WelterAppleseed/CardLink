@@ -1,4 +1,4 @@
-package com.example.cardlinker.presentation.base.card_field_text_watcher
+package com.example.cardlinker.presentation.base.text_watchers
 
 import android.text.Editable
 import android.text.TextUtils

@@ -1,53 +1,36 @@
 package com.example.cardlinker.presentation.base.code_creator
 
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.net.Uri
 import androidx.annotation.ColorInt
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
 import com.google.zxing.oned.CodaBarWriter
-
-import com.google.zxing.oned.Code128Writer
+import java.util.*
 
 class CodeCreator {
     companion object {
         fun createBarcodeBitmap(
             barcodeValue: String,
-            @ColorInt barcodeColor: Int,
-            @ColorInt backgroundColor: Int,
             widthPixels: Int,
-            heightPixels: Int
+            heightPixels: Int,
         ): Bitmap {
-            val bitMatrix = CodaBarWriter().encode(
-                barcodeValue,
+            val finalData = Uri.encode(barcodeValue)
+            val bitMatrix = MultiFormatWriter().encode(
+                finalData,
                 BarcodeFormat.EAN_13,
                 widthPixels,
-                heightPixels
+                1,
             )
-
-            val pixels = IntArray(bitMatrix.width * bitMatrix.height)
-            for (y in 0 until bitMatrix.height) {
-                val offset = y * bitMatrix.width
-                for (x in 0 until bitMatrix.width) {
-                    pixels[offset + x] =
-                        if (bitMatrix.get(x, y)) barcodeColor else backgroundColor
-                }
+            val width = bitMatrix.width
+            val imageBitmap = Bitmap.createBitmap(width, heightPixels, Bitmap.Config.ARGB_8888)
+            for (i in 0 until width) {
+                val column = IntArray(heightPixels)
+                Arrays.fill(column, if (bitMatrix.get(i, 0)) Color.BLACK else Color.WHITE)
+                imageBitmap.setPixels(column, 0, 1, i, 0, 1, heightPixels)
             }
-
-            val bitmap = Bitmap.createBitmap(
-                bitMatrix.width,
-                bitMatrix.height,
-                Bitmap.Config.ARGB_8888
-            )
-            bitmap.setPixels(
-                pixels,
-                0,
-                bitMatrix.width,
-                0,
-                0,
-                bitMatrix.width,
-                bitMatrix.height
-            )
-            return bitmap
+            return imageBitmap
         }
-
     }
 }

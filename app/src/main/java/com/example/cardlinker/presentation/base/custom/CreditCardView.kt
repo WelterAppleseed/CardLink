@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.cardlinker.R
+import com.example.cardlinker.presentation.base.text_watchers.CardTextWatcher
 
 class CreditCardView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
     private var background: FrameLayout
@@ -16,12 +17,13 @@ class CreditCardView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
     private var cardNumberEt: EditText
     private var cardNameEt: EditText
     init {
-        val view = LayoutInflater.from(context).inflate(R.layout.including_card_view, this, true)
+        LayoutInflater.from(context).inflate(R.layout.including_card_view, this, true)
         val attributes: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.CreditCardView)
         background = findViewById(R.id.card_background_iv)
         foreground = findViewById(R.id.card_foreground_iv)
         cardNumberEt = findViewById(R.id.card_number)
         cardNameEt = findViewById(R.id.card_name_et)
+        cardNumberEt.addTextChangedListener(CardTextWatcher())
         attributes.recycle()
     }
     private fun changeStyle(style: Int) {
@@ -31,5 +33,8 @@ class CreditCardView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
     }
     fun getCardTitle(): String {
         return cardNameEt.text.toString()
+    }
+    fun setCardNumber(cardNumber: String) {
+        cardNumberEt.setText(cardNumber)
     }
 }

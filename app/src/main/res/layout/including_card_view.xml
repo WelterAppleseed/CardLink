@@ -50,7 +50,8 @@
         android:layout_marginStart="@dimen/stand_margin_15dp"
         android:layout_marginBottom="@dimen/stand_margin_30dp"
         android:hint="1234 5678 9012 3456"
-        android:maxLength="16"
+        android:maxLength="19"
+        android:background="@android:color/transparent"
         android:textSize="@dimen/stand_text_size_22sp"
         app:layout_constraintEnd_toStartOf="@+id/card_foreground_iv"/>
 
