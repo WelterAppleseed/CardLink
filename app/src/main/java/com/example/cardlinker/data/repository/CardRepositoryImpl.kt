@@ -7,6 +7,10 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CardRepositoryImpl @Inject constructor(private val cardDao: CardDao): CardRepository {
+    override fun saveInput(card: Card) {
+        cardDao.insertCard(card)
+    }
+
     override fun getCardRepository(): Flow<List<Card>> {
         return cardDao.getCards()
     }

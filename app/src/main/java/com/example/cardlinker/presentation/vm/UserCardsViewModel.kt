@@ -14,12 +14,14 @@ import javax.inject.Inject
 @HiltViewModel
 class UserCardsViewModel @Inject constructor(
     private val getCardsUseCase: GetCardsUseCase
-): BaseViewModel() {
+) : BaseViewModel() {
     private val cardsLiveData = MutableLiveData<List<Card>>(null)
+    private val code = MutableLiveData<String>(null)
 
     init {
         initializeCards()
     }
+
     private fun initializeCards() {
         viewModelScope.launch {
             getCardsUseCase.execute()
@@ -30,5 +32,18 @@ class UserCardsViewModel @Inject constructor(
         }
 
     }
+
+    fun saveCode(code: String) {
+        this.code.value = code
+    }
+
+    fun getCode() = code
+    fun saveCard(card: Card) {
+        viewModelScope.launch {
+            getCardsUseCase.saveCard(card)
+            code.value = ""
+        }
+    }
+
     fun getCards() = cardsLiveData
 }

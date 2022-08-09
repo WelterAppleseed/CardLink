@@ -8,4 +8,8 @@
     <string name="start">Start</string>
     <string name="take_photo">Take Photo</string>
     <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="accept">Accept</string>
+    <string name="barcode_of_the_card">Barcode of the card</string>
+    <string name="card_title">Card Title</string>
+    <string name="card_number">Card Number</string>
 </resources>
