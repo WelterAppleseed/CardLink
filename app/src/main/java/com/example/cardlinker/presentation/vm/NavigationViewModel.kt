@@ -2,7 +2,7 @@ package com.example.cardlinker.presentation.vm
 
 import com.example.cardlinker.domain.usecases.CheckUserLoggedInUseCase
 import com.example.cardlinker.presentation.base.BaseViewModel
-import com.example.cardlinker.util.Screens
+import com.example.cardlinker.util.objects.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.github.terrakok.cicerone.Router
@@ -18,4 +18,6 @@ class NavigationViewModel @Inject constructor(
     fun goToEnterBannersFragment() = router.newRootChain(Screens.enterBannersFragment())
 
     fun goToCardInitializingFragment() = router.newRootChain(Screens.cardInitializingFragment())
+
+    fun goToCameraFragment() = router.newRootChain(Screens.cameraFragment())
 }

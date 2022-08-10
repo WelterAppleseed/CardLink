@@ -1,4 +1,4 @@
-package com.example.cardlinker.util
+package com.example.cardlinker.util.objects
 
 import com.example.cardlinker.R
 import com.example.cardlinker.domain.models.BannerItem

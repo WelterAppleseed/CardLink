@@ -1,16 +1,14 @@
 package com.example.cardlinker.presentation.fragments.enter_banners
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cardlinker.R
 import com.example.cardlinker.databinding.FragmentEnterBannersBinding
 import com.example.cardlinker.presentation.base.BaseFragment
 import com.example.cardlinker.presentation.vm.NavigationViewModel
-import com.example.cardlinker.util.EnterBanners
+import com.example.cardlinker.util.objects.EnterBanners
 import com.example.cardlinker.util.disableClickEvent
 import com.example.cardlinker.util.enableClickEvent
 import dagger.hilt.android.AndroidEntryPoint

@@ -27,7 +27,10 @@
     <dimen name="code_container_height">110dp</dimen>
     <dimen name="code_container_width">370dp</dimen>
     <dimen name="code_height">60dp</dimen>
+    <dimen name="recycler_card_height">120dp</dimen>
     <dimen name="code_width">290dp</dimen>
+    <dimen name="default_icon_side_size">100dp</dimen>
+    <dimen name="round_button_side_size">70dp</dimen>
     <dimen name="card_image_side_size">120dp</dimen>
     <dimen name="card_height">220dp</dimen>
     <dimen name="card_width">380dp</dimen>
@@ -42,4 +45,6 @@
     <dimen name="circle_indicator_height">40dp</dimen>
 
     <item name="card_image_scaling" format="float" type="integer">1.4</item>
+    <item name="back_image_scaling" format="float" type="integer">1.2</item>
+    <item name="code_number_letter_spacing" format="float" type="integer">0.1</item>
 </resources>

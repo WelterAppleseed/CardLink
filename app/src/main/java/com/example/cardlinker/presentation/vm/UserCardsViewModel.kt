@@ -15,7 +15,7 @@ import javax.inject.Inject
 class UserCardsViewModel @Inject constructor(
     private val getCardsUseCase: GetCardsUseCase
 ) : BaseViewModel() {
-    private val cardsLiveData = MutableLiveData<List<Card>>(null)
+    private val cardsLiveData = MutableLiveData<ArrayList<Card>>(null)
     private val code = MutableLiveData<String>(null)
 
     init {
@@ -27,7 +27,7 @@ class UserCardsViewModel @Inject constructor(
             getCardsUseCase.execute()
                 .distinctUntilChanged()
                 .collect {
-                    cardsLiveData.value = it
+                    cardsLiveData.value = ArrayList(it)
                 }
         }
 
@@ -41,9 +41,9 @@ class UserCardsViewModel @Inject constructor(
     fun saveCard(card: Card) {
         viewModelScope.launch {
             getCardsUseCase.saveCard(card)
+            cardsLiveData.value?.add(card)
             code.value = ""
         }
     }
-
     fun getCards() = cardsLiveData
 }

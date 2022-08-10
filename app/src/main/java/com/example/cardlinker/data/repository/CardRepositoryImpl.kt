@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CardRepositoryImpl @Inject constructor(private val cardDao: CardDao): CardRepository {
-    override fun saveInput(card: Card) {
+    override suspend fun saveInput(card: Card) {
         cardDao.insertCard(card)
     }
 

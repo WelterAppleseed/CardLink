@@ -1,4 +1,4 @@
-package com.example.cardlinker.util
+package com.example.cardlinker.util.objects
 
 object Constants {
     const val LOGIN_STATE = "login_state"

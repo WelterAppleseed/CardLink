@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.example.cardlinker"
@@ -85,6 +85,16 @@ dependencies {
 
     //Barcode Creator
     implementation 'com.google.zxing:core:3.4.0'
+
+    //CameraX
+    def camerax_version = '1.1.0-beta01'
+
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    implementation "androidx.camera:camera-view:$camerax_version"
+
+    //Overscroll Effect
+    implementation 'io.github.everythingme:overscroll-decor-android:1.1.1'
 
 
 }

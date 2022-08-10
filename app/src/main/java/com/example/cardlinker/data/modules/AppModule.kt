@@ -9,7 +9,7 @@ import com.example.cardlinker.data.repository.CardRepositoryImpl
 import com.example.cardlinker.data.repository.UserLoggedInImpl
 import com.example.cardlinker.domain.repository.CardRepository
 import com.example.cardlinker.domain.repository.UserLoggedInManager
-import com.example.cardlinker.util.Constants
+import com.example.cardlinker.util.objects.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

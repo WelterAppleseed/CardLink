@@ -2,7 +2,7 @@ package com.example.cardlinker.data.repository
 
 import android.content.SharedPreferences
 import com.example.cardlinker.domain.repository.UserLoggedInManager
-import com.example.cardlinker.util.Constants
+import com.example.cardlinker.util.objects.Constants
 
 class UserLoggedInImpl(private val sharedPreferences: SharedPreferences): UserLoggedInManager {
     override fun checkLoginState(): Boolean {

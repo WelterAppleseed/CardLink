@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CardDao {
     @Query("SELECT * from card")
-    abstract fun getCards(): Flow<List<Card>>
+    fun getCards(): Flow<List<Card>>
     @Insert
-    abstract fun insertCard(card: Card)
+    suspend fun insertCard(card: Card)
 }

@@ -11,5 +11,8 @@
     <string name="accept">Accept</string>
     <string name="barcode_of_the_card">Barcode of the card</string>
     <string name="card_title">Card Title</string>
+    <string name="take_face_side_card_b">Take a picture of the front side of the discount card</string>
+    <string name="init_error_text_p1">An error occurred while identifying the unique card code.</string>
+    <string name="init_error_text_p2">Make sure that the code is clearly visible in the photo.</string>
     <string name="card_number">Card Number</string>
 </resources>

@@ -61,7 +61,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/stand_margin_10dp"
-            android:text="ПЯТЁРОЧКА"
             android:textColor="@color/white"
             android:textSize="@dimen/stand_text_size_16sp" />
 
@@ -79,7 +78,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/stand_margin_10dp"
-            android:text="1234 5678 9012 3456"
             android:textColor="@color/white"
             android:textSize="@dimen/stand_text_size_16sp" />
     </LinearLayout>

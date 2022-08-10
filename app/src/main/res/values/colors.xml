@@ -21,6 +21,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="search_field_color_bright">#2b1e29</color>
     <color name="dialog_background_color">#302232</color>
+    <color name="toolbar_background_color">#4D3750</color>
     <color name="container_background_color">#412E43</color>
     <color name="bright_icon_color">#f3e8f2</color>
     <color name="text_color_dark">#655863</color>

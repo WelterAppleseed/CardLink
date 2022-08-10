@@ -1,5 +1,6 @@
 package com.example.cardlinker.domain.models
 
+import androidx.annotation.DrawableRes
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,5 +11,6 @@ data class Card(
     val id: Long = 0,
     val name: String?,
     val number: String?,
-    val barcode: String
+    val barcode: String,
+    val background: Int
 )

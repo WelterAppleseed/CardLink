@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class GetCardsUseCase @Inject constructor(private val cardRepository: CardRepository): BaseUseCase<Flow<List<Card>>> {
 
-    fun saveCard(card: Card) = cardRepository.saveInput(card)
+    suspend fun saveCard(card: Card) = cardRepository.saveInput(card)
     override fun execute(): Flow<List<Card>> {
         return cardRepository.getCardRepository()
     }
