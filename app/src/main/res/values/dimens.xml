@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="stand_margin_5dp">5dp</dimen>
     <dimen name="stand_margin_10dp">10dp</dimen>
     <dimen name="stand_margin_15dp">15dp</dimen>
@@ -29,7 +29,9 @@
     <dimen name="code_height">60dp</dimen>
     <dimen name="recycler_card_height">120dp</dimen>
     <dimen name="code_width">290dp</dimen>
-    <dimen name="default_icon_side_size">100dp</dimen>
+    <dimen name="large_dialog_icon_side_size">100dp</dimen>
+    <dimen name="low_button_height">35dp</dimen>
+    <dimen name="default_icon_side_size">50dp</dimen>
     <dimen name="round_button_side_size">70dp</dimen>
     <dimen name="card_image_side_size">120dp</dimen>
     <dimen name="card_height">220dp</dimen>
@@ -43,6 +45,9 @@
     <dimen name="banner_image_height">150dp</dimen>
     <dimen name="search_field_corners_rad">10dp</dimen>
     <dimen name="circle_indicator_height">40dp</dimen>
+
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">10sp</dimen>
 
     <item name="card_image_scaling" format="float" type="integer">1.4</item>
     <item name="back_image_scaling" format="float" type="integer">1.2</item>

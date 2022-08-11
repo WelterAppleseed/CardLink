@@ -18,6 +18,7 @@ import com.example.cardlinker.presentation.vm.NavigationViewModel
 import com.example.cardlinker.presentation.vm.UserCardsViewModel
 import com.google.mlkit.vision.barcode.common.Barcode
 import dagger.hilt.android.AndroidEntryPoint
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 @AndroidEntryPoint
 class UserCardsFragment :
@@ -36,9 +37,9 @@ class UserCardsFragment :
         cardsViewModel.getCards().observe(viewLifecycleOwner) {
             binding.apply {
                 if (it != null) {
-                    println(it)
                     myCardRecycler.adapter = UserCardsAdapter(it, this@UserCardsFragment)
                     myCardRecycler.layoutManager = GridLayoutManager(context, 2)
+                    if (it.size > 6)  OverScrollDecoratorHelper.setUpOverScroll(myCardRecycler, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
                 }
             }
         }
@@ -67,7 +68,6 @@ class UserCardsFragment :
             }
         }
     }
-
     override fun onCardClicked(card: Card) {
         navigationViewModel.goToCardInitializingFragment()
         cardsViewModel.saveCode(card.barcode)

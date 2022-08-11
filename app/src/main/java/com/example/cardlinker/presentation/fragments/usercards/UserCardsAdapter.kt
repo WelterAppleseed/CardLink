@@ -3,6 +3,7 @@ package com.example.cardlinker.presentation.fragments.usercards
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cardlinker.R
 import com.example.cardlinker.databinding.ItemCardRecyclerBinding
 import com.example.cardlinker.domain.models.Card
 import com.example.cardlinker.presentation.base.text_watchers.OnCardClickListener
@@ -14,6 +15,7 @@ class UserCardsAdapter(private val cardList: List<Card>, onCardClicked: OnCardCl
     inner class ViewHolder(private val binding: ItemCardRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(card: Card) {
+            println(R.drawable.okei)
             binding.cardItem.setImageResource(card.background)
             binding.cardItem.setOnClickListener {
                 onCardClickedListener.onCardClicked(card)

@@ -28,24 +28,39 @@ class CardInitializingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cardsViewModel.getCode().observe(viewLifecycleOwner) { code ->
-            binding.apply {
-                if (code != null) {
-                    displayCode(code)
-                    initCardData(code)
-                    OverScrollDecoratorHelper.setUpOverScroll(initCardNestedScrollview)
-                    context?.let { it1 -> getColor(it1, R.color.toolbar_background_color) }
-                        ?.let { it2 -> drawStatusBar(it2, false) }
-                    acceptB.setOnClickListener {
-                        codeLayout.apply {
-                            cardsViewModel.saveCard(
-                                Card(
-                                    name = cardTitleTv.text.toString(),
-                                    barcode = code,
-                                    number = code,
-                                    background = cardBackground
-                                )
-                            )
-                            navigationViewModel.goToUserCardsFragment()
+            if (code != null) {
+                cardsViewModel.getCards().observe(viewLifecycleOwner) {cards ->
+                    run {
+                        binding.apply {
+                            for (card in cards) {
+                                if (card.barcode == code) {
+                                        acceptB.visibility = View.GONE
+                                        problemWithCardLayout.root.visibility = View.VISIBLE
+                                        problemWithCardLayout.contactB.setOnClickListener {
+                                            //TODO
+                                        }
+                                    initToolbarMenu(code)
+                                    break
+                                }
+                            }
+                            displayCode(code)
+                            initCardData(code)
+                            OverScrollDecoratorHelper.setUpOverScroll(initCardNestedScrollview)
+                            context?.let { it1 -> getColor(it1, R.color.toolbar_background_color) }
+                                ?.let { it2 -> drawStatusBar(it2, false) }
+                            acceptB.setOnClickListener {
+                                codeLayout.apply {
+                                    cardsViewModel.saveCard(
+                                        Card(
+                                            name = cardTitleTv.text.toString(),
+                                            barcode = code,
+                                            number = code,
+                                            background = cardBackground
+                                        )
+                                    )
+                                    navigationViewModel.goToUserCardsFragment()
+                                }
+                            }
                         }
                     }
                 }
@@ -53,6 +68,10 @@ class CardInitializingFragment :
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cardsViewModel.deleteCode()
+    }
     private fun initCardData(cardNumber: String) {
         binding.apply {
             val pair = CardBackground.getSrcAndNameIfExist(cardNumber)
@@ -80,6 +99,19 @@ class CardInitializingFragment :
         }
     }
 
+    private fun initToolbarMenu(code: String) {
+        binding.apply {
+            cardToolbar.inflateMenu(R.menu.init_close_menu)
+            cardToolbar.setOnMenuItemClickListener {
+                if (it.itemId == R.id.action_delete) {
+                    cardsViewModel.deleteCard(code)
+                    navigationViewModel.goToUserCardsFragment()
+                    return@setOnMenuItemClickListener true
+                }
+                return@setOnMenuItemClickListener false
+            }
+        }
+    }
     private fun displayCode(code: String) {
         binding.apply {
             val widthPixels = resources.getDimensionPixelSize(R.dimen.code_width)
@@ -94,4 +126,6 @@ class CardInitializingFragment :
             codeLayout.bottomCodeTv.text = code.codeWithSpaces()
         }
     }
+
+    override var bottomNavigationViewVisibility: Int = View.GONE
 }

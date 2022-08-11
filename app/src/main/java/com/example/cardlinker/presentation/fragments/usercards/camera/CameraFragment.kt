@@ -55,4 +55,7 @@ class CameraFragment: BaseFragment<FragmentCameraBinding>(FragmentCameraBinding:
             navigationViewModel.goToUserCardsFragment()
         }
     }
+
+    override var bottomNavigationViewVisibility: Int = View.GONE
+
 }

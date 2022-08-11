@@ -1,6 +1,6 @@
 package com.example.cardlinker.presentation.vm
 
-import com.example.cardlinker.domain.usecases.CheckUserLoggedInUseCase
+import com.example.cardlinker.domain.usecases.CheckFirstTimeUsedUseCase
 import com.example.cardlinker.presentation.base.BaseViewModel
 import com.example.cardlinker.util.objects.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,10 +9,8 @@ import com.github.terrakok.cicerone.Router
 
 @HiltViewModel
 class NavigationViewModel @Inject constructor(
-    private val router: Router,
-    private val userLoggedInUseCase: CheckUserLoggedInUseCase
+    private val router: Router
 ): BaseViewModel() {
-
     fun goToUserCardsFragment() = router.newRootChain(Screens.userCardsFragment())
 
     fun goToEnterBannersFragment() = router.newRootChain(Screens.enterBannersFragment())

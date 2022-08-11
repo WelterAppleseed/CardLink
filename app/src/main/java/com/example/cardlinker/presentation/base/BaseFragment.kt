@@ -12,6 +12,8 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.example.cardlinker.R
+import com.example.cardlinker.presentation.activities.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 open class BaseFragment<V : ViewBinding>(
@@ -20,11 +22,17 @@ open class BaseFragment<V : ViewBinding>(
 
     private var contentBinding: V? = null
 
+    protected open var bottomNavigationViewVisibility = View.VISIBLE
+
     protected val binding: V
         get() = requireNotNull(contentBinding) {
             "Binding is only valid between onCreateView and onDestroyView"
         }
 
+    override fun onStart() {
+        super.onStart()
+        bottomNavigationBarVisibility(bottomNavigationViewVisibility)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,6 +69,11 @@ open class BaseFragment<V : ViewBinding>(
             window.statusBarColor = color
         }
 
+    }
+    private fun bottomNavigationBarVisibility(visibility: Int) {
+        if (activity is MainActivity) {
+            (activity as MainActivity).setBottomNavigationBarVisibility(visibility)
+        }
     }
 
 }

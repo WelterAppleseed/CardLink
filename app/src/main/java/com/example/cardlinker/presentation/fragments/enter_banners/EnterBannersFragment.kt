@@ -65,4 +65,7 @@ class EnterBannersFragment :
             if (currentPosition in 0..lastPosition) bannerViewPager.currentItem = currentPosition else navigationViewModel.goToUserCardsFragment()
         }
     }
+
+    override var bottomNavigationViewVisibility: Int = View.GONE
+
 }

@@ -15,4 +15,10 @@
     <string name="init_error_text_p1">An error occurred while identifying the unique card code.</string>
     <string name="init_error_text_p2">Make sure that the code is clearly visible in the photo.</string>
     <string name="card_number">Card Number</string>
+    <string name="catalog">Catalog</string>
+    <string name="cards">Cards</string>
+    <string name="messages">Messages</string>
+    <string name="menu">Menu</string>
+    <string name="problems_text">Do you have any problems with card?</string>
+    <string name="contact_us">Contact Us</string>
 </resources>

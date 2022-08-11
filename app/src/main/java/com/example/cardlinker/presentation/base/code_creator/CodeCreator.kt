@@ -17,6 +17,7 @@ class CodeCreator {
             heightPixels: Int,
         ): Bitmap {
             val finalData = Uri.encode(barcodeValue)
+            println("$finalData $barcodeValue $widthPixels $heightPixels")
             val bitMatrix = MultiFormatWriter().encode(
                 finalData,
                 BarcodeFormat.EAN_13,
