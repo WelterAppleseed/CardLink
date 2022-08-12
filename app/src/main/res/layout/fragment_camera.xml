@@ -26,7 +26,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/big_margin_50dp"
+        android:layout_height="@dimen/big_margin_50dp"
+        app:layout_constraintStart_toStartOf="@+id/camera_view"
+        app:layout_constraintEnd_toEndOf="@id/camera_view"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/camera_view"
+        app:layout_constraintBottom_toBottomOf="@id/camera_view"/>
     <ImageView
         android:id="@+id/capture_iv"
         style="@style/RoundButtonStyle"

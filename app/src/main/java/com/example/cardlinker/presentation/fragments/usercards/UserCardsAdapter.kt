@@ -11,7 +11,7 @@ import com.example.cardlinker.presentation.base.text_watchers.OnCardClickListene
 class UserCardsAdapter(private val cardList: List<Card>, onCardClicked: OnCardClickListener) :
     RecyclerView.Adapter<UserCardsAdapter.ViewHolder>() {
     private val onCardClickedListener = onCardClicked
-
+    private var mutableCardList = ArrayList(cardList)
     inner class ViewHolder(private val binding: ItemCardRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(card: Card) {
@@ -32,12 +32,22 @@ class UserCardsAdapter(private val cardList: List<Card>, onCardClicked: OnCardCl
             )
         )
     }
-
+    fun filter(name: String) {
+        mutableCardList = arrayListOf()
+        if (name != "") {
+            for (card in cardList) {
+                if (card.name?.startsWith(name, true) == true) mutableCardList.add(card)
+            }
+        } else {
+            mutableCardList.addAll(cardList)
+        }
+        notifyDataSetChanged()
+    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(cardList[position])
+        holder.bind(mutableCardList[position])
     }
 
     override fun getItemCount(): Int {
-        return cardList.size
+        return mutableCardList.size
     }
 }

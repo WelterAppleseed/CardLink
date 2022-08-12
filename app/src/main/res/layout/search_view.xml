@@ -19,6 +19,7 @@
         android:background="@android:color/transparent"
         android:textColorHint="@color/text_color_dark"
         android:hint="@string/search"
+        android:textColor="@color/text_color_bright"
         android:layout_marginStart="@dimen/stand_margin_10dp"
         android:layout_height="@dimen/search_view_height" />
 </LinearLayout>

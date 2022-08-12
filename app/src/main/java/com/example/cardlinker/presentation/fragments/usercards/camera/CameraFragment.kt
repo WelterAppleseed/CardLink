@@ -11,6 +11,8 @@ import com.example.cardlinker.presentation.base.codeformatter.CodeFormatter
 import com.example.cardlinker.presentation.base.codeformatter.OnCodeFormattedListener
 import com.example.cardlinker.presentation.vm.NavigationViewModel
 import com.example.cardlinker.presentation.vm.UserCardsViewModel
+import com.example.cardlinker.util.disable
+import com.example.cardlinker.util.enable
 import com.google.mlkit.vision.barcode.common.Barcode
 import java.io.File
 
@@ -22,6 +24,9 @@ class CameraFragment: BaseFragment<FragmentCameraBinding>(FragmentCameraBinding:
         binding.apply {
             cameraView.startCamera(viewLifecycleOwner)
             captureIv.setOnClickListener {
+                captureIv.disable()
+                captureIv.alpha = 0.5F
+                progressBar.visibility = View.VISIBLE
                 cameraView.takePhoto(getOutputDirectory(), this@CameraFragment)
             }
         }
@@ -46,12 +51,14 @@ class CameraFragment: BaseFragment<FragmentCameraBinding>(FragmentCameraBinding:
         for (code in codes) {
             if (code.rawValue != null) {
                 cardsViewModel.saveCode(code.rawValue!!)
+                binding.cameraView.clearForeground()
                 navigationViewModel.goToCardInitializingFragment()
                 break
             }
         }
         if (codes.isEmpty()) {
             showDialog()
+            binding.cameraView.clearForeground()
             navigationViewModel.goToUserCardsFragment()
         }
     }

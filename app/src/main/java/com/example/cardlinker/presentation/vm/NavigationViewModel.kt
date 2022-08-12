@@ -1,6 +1,5 @@
 package com.example.cardlinker.presentation.vm
 
-import com.example.cardlinker.domain.usecases.CheckFirstTimeUsedUseCase
 import com.example.cardlinker.presentation.base.BaseViewModel
 import com.example.cardlinker.util.objects.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel

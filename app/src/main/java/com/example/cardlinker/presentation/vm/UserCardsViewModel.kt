@@ -3,8 +3,8 @@ package com.example.cardlinker.presentation.vm
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.cardlinker.domain.models.Card
-import com.example.cardlinker.domain.usecases.DeleteCardUseCase
-import com.example.cardlinker.domain.usecases.GetCardsUseCase
+import com.example.cardlinker.domain.usecases.DeleteCardReturnUseCase
+import com.example.cardlinker.domain.usecases.GetCardsReturnUseCase
 import com.example.cardlinker.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -13,12 +13,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserCardsViewModel @Inject constructor(
-    private val getCardsUseCase: GetCardsUseCase,
-    private val deleteCardsUseCase: DeleteCardUseCase
+    private val getCardsUseCase: GetCardsReturnUseCase,
+    private val deleteCardsUseCase: DeleteCardReturnUseCase
 ) : BaseViewModel() {
     private val cardsLiveData = MutableLiveData<ArrayList<Card>>(null)
     private val codeLiveData = MutableLiveData<String?>(null)
-    private val deleteCardState = MutableLiveData<Boolean>(null)
 
     init {
         initializeCards()
@@ -53,9 +52,6 @@ class UserCardsViewModel @Inject constructor(
         viewModelScope.launch {
             deleteCardsUseCase.saveInput(code)
             deleteCardsUseCase.execute()
-                .distinctUntilChanged()
-                .collect {
-                }
         }
     }
     fun deleteCode() = run {codeLiveData.value = null}

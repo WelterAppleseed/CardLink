@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/theme_background_color"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/recommendation_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recommendations"
+        android:layout_marginTop="@dimen/stand_margin_16dp"
+        android:layout_marginStart="@dimen/stand_margin_16dp"
+        android:textColor="@color/text_color_bright"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="@dimen/stand_text_size_18sp"/>
+
+    <TextView
+        android:id="@+id/more_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/more"
+        android:textColor="@color/attent_blue_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/stand_margin_16dp"
+        android:layout_marginEnd="@dimen/stand_margin_16dp"
+        android:textSize="@dimen/stand_text_size_18sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recommendation_recycler"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/stand_margin_10dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/recommendation_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,6 +21,8 @@
             android:value="barcode" />
         <activity
             android:name=".presentation.activities.MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

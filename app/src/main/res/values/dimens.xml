@@ -29,6 +29,8 @@
     <dimen name="code_height">60dp</dimen>
     <dimen name="recycler_card_height">120dp</dimen>
     <dimen name="code_width">290dp</dimen>
+    <dimen name="search_field_full_width">340dp</dimen>
+    <dimen name="search_field_part_width">300dp</dimen>
     <dimen name="large_dialog_icon_side_size">100dp</dimen>
     <dimen name="low_button_height">35dp</dimen>
     <dimen name="default_icon_side_size">50dp</dimen>

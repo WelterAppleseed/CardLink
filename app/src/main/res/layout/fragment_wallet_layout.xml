@@ -14,19 +14,37 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/search_menu">
         <com.example.cardlinker.presentation.base.custom.SearchView
-            android:layout_width="match_parent"
+            android:id="@+id/search_view"
+            android:animateLayoutChanges="true"
+            android:layout_width="@dimen/search_field_full_width"
             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/cancel_tv"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/stand_margin_30dp"
+            android:textColor="@color/text_color_bright"
+            android:text="@string/cancel"/>
     </androidx.appcompat.widget.Toolbar>
+    <include layout="@layout/horizontal_recommendation_layout"
+        android:id="@+id/horizontal_recommendation_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@+id/search_add_bar"/>
 
     <LinearLayout
+        android:id="@+id/recycler_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_add_bar"
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_recommendation_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/recycler_background"
-        android:layout_marginTop="@dimen/stand_margin_30dp"
+        android:layout_marginTop="@dimen/stand_margin_15dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/my_card_tv"
@@ -35,7 +53,7 @@
             android:layout_marginStart="@dimen/stand_margin_16dp"
             android:layout_marginTop="@dimen/stand_margin_25dp"
             android:text="@string/my_cards"
-            android:textSize="@dimen/standp_text_size_24sp"
+            android:textSize="@dimen/stand_text_size_18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_add_bar" />
@@ -47,6 +65,8 @@
             android:layout_marginStart="@dimen/stand_margin_16dp"
             android:layout_marginTop="@dimen/stand_margin_16dp"
             android:layout_marginEnd="@dimen/stand_margin_16dp"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

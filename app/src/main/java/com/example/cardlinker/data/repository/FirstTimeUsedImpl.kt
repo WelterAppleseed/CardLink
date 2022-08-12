@@ -6,12 +6,12 @@ import com.example.cardlinker.util.objects.Constants
 
 class FirstTimeUsedImpl(private val sharedPreferences: SharedPreferences): FirstTimeUsedManager {
     override fun checkFirstTimeUsed(): Boolean {
-        val state = sharedPreferences.getBoolean(Constants.FIRST_TIME_USED, false)
+        val state = sharedPreferences.getBoolean(Constants.FIRST_TIME_USED, true)
         return state
     }
 
-    override fun isFirstTimeUsed(isLoggedIn: Boolean) {
-        sharedPreferences.edit().putBoolean(Constants.FIRST_TIME_USED, isLoggedIn).apply()
+    override fun isFirstTimeUsed(isFirstTime: Boolean) {
+        sharedPreferences.edit().putBoolean(Constants.FIRST_TIME_USED, isFirstTime).apply()
     }
 
 }

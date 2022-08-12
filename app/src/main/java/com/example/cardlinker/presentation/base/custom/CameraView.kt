@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
@@ -51,7 +52,7 @@ class CameraView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
                 .also {
                     it.setSurfaceProvider(viewFinder.surfaceProvider)
                 }
-            imageCapture = ImageCapture.Builder().build()
+            imageCapture = ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build()
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
@@ -100,8 +101,8 @@ class CameraView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
                     Locale.US
                 ).format(System.currentTimeMillis()) + ".jpg"
             )
+            viewFinder.foreground = BitmapDrawable(resources, viewFinder.bitmap)
             val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-
             imageCapture.takePicture(
                 outputOptions,
                 ContextCompat.getMainExecutor(context),
@@ -125,7 +126,9 @@ class CameraView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
             )
         }
     }
-
+    fun clearForeground() {
+        viewFinder.foreground = null
+    }
     fun getUris(): Pair<Uri?, Uri?> {
         return uris
     }
