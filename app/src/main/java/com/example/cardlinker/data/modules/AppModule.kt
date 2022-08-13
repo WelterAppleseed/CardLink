@@ -4,12 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.cardlinker.data.local.dao.CardDao
+import com.example.cardlinker.data.local.dao.RecommendationDao
 import com.example.cardlinker.data.local.db.CardLinkDatabase
-import com.example.cardlinker.data.repository.CardRepositoryImpl
-import com.example.cardlinker.data.repository.UserLoggedInImpl
-import com.example.cardlinker.domain.repository.CardRepository
-import com.example.cardlinker.domain.repository.UserLoggedInManager
-import com.example.cardlinker.util.Constants
+import com.example.cardlinker.data.repository.*
+import com.example.cardlinker.domain.repository.*
+import com.example.cardlinker.util.objects.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,13 +36,29 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideCardRepository(cardDao: CardDao): CardRepository = CardRepositoryImpl(cardDao)
+    fun provideDeleteCardRepository(cardDao: CardDao): DeleteCardRepository = DeleteCardRepositoryImpl(cardDao)
+    @Provides
+    @Singleton
+    fun provideGetCardRepository(cardDao: CardDao): GetCardRepository = GetCardRepositoryImpl(cardDao)
 
     @Provides
     fun provideChannelDao(cardLinkDatabase: CardLinkDatabase): CardDao {
         return cardLinkDatabase.cardDao()
     }
     @Provides
+    fun provideRecommendationDao(cardLinkDatabase: CardLinkDatabase): RecommendationDao {
+        return cardLinkDatabase.recommendationDao()
+    }
+    @Provides
     @Singleton
-    fun provideUserLoggedInManager(appPreferences: SharedPreferences): UserLoggedInManager = UserLoggedInImpl(appPreferences)
+    fun provideGetRecommendationRepository(getRecommendationDao: RecommendationDao): GetRecommendationRepository = GetRecommendationRepositoryImpl(getRecommendationDao)
+
+    @Provides
+    @Singleton
+    fun provideAddRecommendationRepository(addRecommendationDao: RecommendationDao): AddRecommendationRepository = AddRecommendationRepositoryImpl(addRecommendationDao)
+
+
+    @Provides
+    @Singleton
+    fun provideUserLoggedInManager(appPreferences: SharedPreferences): FirstTimeUsedManager = FirstTimeUsedImpl(appPreferences)
     }

@@ -2,43 +2,75 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/theme_background_color">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/search_add_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/toolbar_background_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/search_menu">
-
         <com.example.cardlinker.presentation.base.custom.SearchView
-            android:layout_width="match_parent"
+            android:id="@+id/search_view"
+            android:animateLayoutChanges="true"
+            android:layout_width="@dimen/search_field_full_width"
             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/cancel_tv"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/stand_margin_30dp"
+            android:textColor="@color/text_color_bright"
+            android:text="@string/cancel"/>
     </androidx.appcompat.widget.Toolbar>
-
-    <TextView
-        android:id="@+id/my_card_tv"
+    <include layout="@layout/horizontal_recommendation_layout"
+        android:id="@+id/horizontal_recommendation_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/stand_margin_16dp"
-        android:layout_marginTop="@dimen/stand_margin_25dp"
-        android:text="@string/my_cards"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_add_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/search_add_bar"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_card_recycler"
+    <LinearLayout
+        android:id="@+id/recycler_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/stand_margin_16dp"
-        android:layout_marginTop="@dimen/stand_margin_16dp"
-        android:layout_marginEnd="@dimen/stand_margin_16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_recommendation_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_card_tv" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/recycler_background"
+        android:layout_marginTop="@dimen/stand_margin_15dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/my_card_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/stand_margin_16dp"
+            android:layout_marginTop="@dimen/stand_margin_25dp"
+            android:text="@string/my_cards"
+            android:textSize="@dimen/stand_text_size_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_add_bar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_card_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/stand_margin_16dp"
+            android:layout_marginTop="@dimen/stand_margin_16dp"
+            android:layout_marginEnd="@dimen/stand_margin_16dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_card_tv" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

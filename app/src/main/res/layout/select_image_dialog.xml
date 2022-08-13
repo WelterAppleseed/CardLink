@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/dialog_bg"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/from_photo_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/standp_text_size_24sp"
+        android:textColor="@color/text_color_bright"
+        android:text="@string/take_photo"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/dialog_background_color"
+        android:typeface="monospace"
+        android:layout_margin="@dimen/stand_margin_10dp"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/from_gallery_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/standp_text_size_24sp"
+        android:backgroundTint="@color/dialog_background_color"
+        android:layout_margin="@dimen/stand_margin_10dp"
+        android:textColor="@color/text_color_bright"
+        android:text="@string/choose_from_gallery"
+        android:layout_gravity="center"
+        android:typeface="monospace"
+        android:gravity="center"/>
+</LinearLayout>
