@@ -1,10 +1,8 @@
 package com.example.cardlinker.presentation.fragments.usercards
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -16,12 +14,10 @@ import com.example.cardlinker.databinding.FragmentWalletLayoutBinding
 import com.example.cardlinker.databinding.InitializationErrorDialogBinding
 import com.example.cardlinker.databinding.SelectImageDialogBinding
 import com.example.cardlinker.domain.models.Card
-import com.example.cardlinker.domain.models.Recommendation
 import com.example.cardlinker.presentation.base.BaseFragment
 import com.example.cardlinker.presentation.base.codeformatter.OnCodeFormattedListener
 import com.example.cardlinker.presentation.base.image_picker.ImagePicker
 import com.example.cardlinker.presentation.base.text_watchers.OnCardClickListener
-import com.example.cardlinker.presentation.fragments.usercards.recommendations.OnRecommendationListener
 import com.example.cardlinker.presentation.fragments.usercards.recommendations.RecommendationAdapter
 import com.example.cardlinker.presentation.vm.NavigationViewModel
 import com.example.cardlinker.presentation.vm.RecommendationViewModel
@@ -33,7 +29,7 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 @AndroidEntryPoint
 class UserCardsFragment :
     BaseFragment<FragmentWalletLayoutBinding>(FragmentWalletLayoutBinding::inflate),
-    OnCodeFormattedListener, OnCardClickListener, OnRecommendationListener {
+    OnCodeFormattedListener, OnCardClickListener {
     private val cardsViewModel: UserCardsViewModel by activityViewModels()
     private val navigationViewModel: NavigationViewModel by activityViewModels()
     private val recommendationViewModel: RecommendationViewModel by activityViewModels()
@@ -43,31 +39,37 @@ class UserCardsFragment :
         initCardRecycler()
         initRecommendationRecycler()
     }
+
     private fun initCardRecycler() {
         cardsViewModel.getCards().observe(viewLifecycleOwner) {
             binding.apply {
                 if (it != null) {
                     myCardRecycler.adapter = UserCardsAdapter(it, this@UserCardsFragment)
                     myCardRecycler.layoutManager = GridLayoutManager(context, 2)
-                    if (it.size > 6)  OverScrollDecoratorHelper.setUpOverScroll(myCardRecycler, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
+                    if (it.size > 6) OverScrollDecoratorHelper.setUpOverScroll(
+                        myCardRecycler,
+                        OverScrollDecoratorHelper.ORIENTATION_VERTICAL
+                    )
                     initToolbar()
                 }
             }
         }
     }
+
     private fun initRecommendationRecycler() {
         recommendationViewModel.getRecommendations().observe(viewLifecycleOwner) {
             binding.horizontalRecommendationLayout.apply {
-                recommendationRecycler.adapter = RecommendationAdapter(it, this@UserCardsFragment)
-                recommendationRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                recommendationRecycler.adapter = RecommendationAdapter(it)
+                recommendationRecycler.layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                moreTv.setOnClickListener { navigationViewModel.goToSupportedCardsFragment() }
             }
         }
     }
+
     private fun initToolbar() {
         binding.apply {
             searchView.setOnFocusChangeListener({
-                myCardTv.visibility = View.GONE
-                horizontalRecommendationLayout.root.visibility = View.GONE
                 recyclerLayout.backgroundTintList = ColorStateList.valueOf(
                     ResourcesCompat.getColor(
                         resources,
@@ -75,18 +77,26 @@ class UserCardsFragment :
                         null
                     )
                 )
-                searchView.layoutParams = Toolbar.LayoutParams(resources.getDimension(R.dimen.search_field_part_width).toInt(),Toolbar.LayoutParams.WRAP_CONTENT)
-                cancelTv.visibility = View.VISIBLE
+                searchView.layoutParams = Toolbar.LayoutParams(
+                    resources.getDimension(R.dimen.search_field_part_width).toInt(),
+                    Toolbar.LayoutParams.WRAP_CONTENT
+                )
                 searchAddBar.menu.getItem(0).isEnabled = false
                 searchAddBar.menu.getItem(0).isVisible = false
+                cancelTv.visibility = View.VISIBLE
+                myCardTv.visibility = View.GONE
+                horizontalRecommendationLayout.root.visibility = View.GONE
             }, {
-                myCardTv.visibility = View.VISIBLE
                 recyclerLayout.backgroundTintList = null
-                searchView.layoutParams = Toolbar.LayoutParams(Toolbar.LayoutParams.MATCH_PARENT, Toolbar.LayoutParams.WRAP_CONTENT)
-                cancelTv.visibility = View.GONE
+                searchView.layoutParams = Toolbar.LayoutParams(
+                    Toolbar.LayoutParams.MATCH_PARENT,
+                    Toolbar.LayoutParams.WRAP_CONTENT
+                )
                 searchAddBar.menu.getItem(0).isEnabled = true
                 searchAddBar.menu.getItem(0).isVisible = true
+                myCardTv.visibility = View.VISIBLE
                 horizontalRecommendationLayout.root.visibility = View.VISIBLE
+                cancelTv.visibility = View.GONE
             })
             searchView.setOnTextChangedListener { changedPart ->
                 (myCardRecycler.adapter as UserCardsAdapter).filter(changedPart)
@@ -121,10 +131,12 @@ class UserCardsFragment :
             }
         }
     }
+
     override fun onCardClicked(card: Card) {
         navigationViewModel.goToCardInitializingFragment()
         cardsViewModel.saveCode(card.barcode)
     }
+
     override fun onCodeFormatted(codes: List<Barcode>) {
         for (code in codes) {
             if (code.rawValue != null) {
@@ -134,18 +146,13 @@ class UserCardsFragment :
             }
         }
         if (codes.isEmpty()) {
-            createCustomDialog(InitializationErrorDialogBinding.inflate(layoutInflater)) {
-                thisViewBinding, dialog ->
+            createCustomDialog(InitializationErrorDialogBinding.inflate(layoutInflater)) { thisViewBinding, dialog ->
                 if (thisViewBinding is InitializationErrorDialogBinding) {
-                    thisViewBinding.errorCloseB.setOnClickListener{
+                    thisViewBinding.errorCloseB.setOnClickListener {
                         dialog.dismiss()
                     }
                 }
             }.show()
         }
-    }
-
-    override fun onRecommendationClicked(recommendation: Recommendation) {
-        println(recommendation.id)
     }
 }

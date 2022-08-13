@@ -69,6 +69,6 @@
             android:layout_gravity="center"
             android:text="Products"
             android:textColor="@color/white"
-            android:textSize="@dimen/standp_text_size_24sp" />
+            android:textSize="@dimen/stand_text_size_18sp" />
     </androidx.appcompat.widget.Toolbar>
 </androidx.constraintlayout.widget.ConstraintLayout>

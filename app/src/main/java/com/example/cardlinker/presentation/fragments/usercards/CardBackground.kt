@@ -1,6 +1,7 @@
 package com.example.cardlinker.presentation.fragments.usercards
 
 import com.example.cardlinker.R
+import com.example.cardlinker.domain.models.Recommendation
 
 class CardBackground {
     companion object {
@@ -51,7 +52,13 @@ class CardBackground {
             Triple(arrayOf("3330"), R.drawable.nike, "Nike"),
 
             )
-
+        fun getSupportedCardsList(): List<Recommendation> {
+            val list: ArrayList<Recommendation> = arrayListOf()
+            for (i in backgroundList) {
+                list.add(Recommendation(marketImage = i.second, marketName = i.third, reference = ""))
+            }
+            return list
+        }
         fun getSrcAndNameIfExist(code: String): Pair<Int, String>? {
             for (backgroundTriple in backgroundList) {
                 backgroundTriple.first.forEach { startCode ->

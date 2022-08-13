@@ -17,4 +17,6 @@ class NavigationViewModel @Inject constructor(
     fun goToCardInitializingFragment() = router.newRootChain(Screens.cardInitializingFragment())
 
     fun goToCameraFragment() = router.newRootChain(Screens.cameraFragment())
+
+    fun goToSupportedCardsFragment() = router.newRootChain(Screens.supportedCardsFragment())
 }

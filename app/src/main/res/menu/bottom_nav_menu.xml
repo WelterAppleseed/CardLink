@@ -8,18 +8,6 @@
         android:title="@string/cards"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_catalog"
-        android:enabled="true"
-        android:icon="@drawable/document_dr"
-        android:title="@string/catalog"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_cashback"
-        android:enabled="true"
-        android:icon="@drawable/messages_dr"
-        android:title="@string/messages"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_menu"
         android:enabled="true"
         android:icon="@drawable/menu_dr"

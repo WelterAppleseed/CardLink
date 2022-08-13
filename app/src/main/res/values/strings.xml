@@ -24,4 +24,6 @@
     <string name="cancel">Cancel</string>
     <string name="recommendations">Recommendations</string>
     <string name="more">More</string>
+    <string name="card_support">Card Support</string>
+    <string name="supported_cards">Supported Cards</string>
 </resources>

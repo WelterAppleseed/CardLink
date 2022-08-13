@@ -8,7 +8,7 @@
         android:id="@+id/recommendation_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/recommendations"
+        android:text="@string/card_support"
         android:layout_marginTop="@dimen/stand_margin_16dp"
         android:layout_marginStart="@dimen/stand_margin_16dp"
         android:textColor="@color/text_color_bright"

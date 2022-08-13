@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/theme_background_color"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/sup_card_iv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_height"
+        android:src="@drawable/okei"
+        android:scaleType="center"
+        android:layout_margin="@dimen/stand_margin_20dp"
+        app:shapeAppearanceOverlay="@style/LargeRoundedCorners"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/sup_card_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/sup_card_iv"
+        android:layout_marginStart="@dimen/stand_margin_25dp"
+        android:layout_marginTop="@dimen/stand_margin_15dp"
+        android:layout_marginBottom="@dimen/stand_margin_30dp"
+        android:textSize="@dimen/stand_text_size_20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/white"
+        tools:text="Market Name"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

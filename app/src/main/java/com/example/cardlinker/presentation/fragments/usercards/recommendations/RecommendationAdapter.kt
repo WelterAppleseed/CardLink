@@ -6,17 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cardlinker.R
 import com.example.cardlinker.databinding.RecommendationItemBinding
 import com.example.cardlinker.domain.models.Recommendation
+import com.example.cardlinker.util.objects.Constants
 
-class RecommendationAdapter(private val recommendationList: List<Recommendation>, onRecommendationListener: OnRecommendationListener) :
+class RecommendationAdapter(private val recommendationList: List<Recommendation>) :
     RecyclerView.Adapter<RecommendationAdapter.ViewHolder>() {
-    private val recommendationListener = onRecommendationListener
     inner class ViewHolder(private val binding: RecommendationItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(recommendation: Recommendation) {
             binding.recomIv.setImageResource(recommendation.marketImage)
-            binding.recomIv.setOnClickListener {
-                recommendationListener.onRecommendationClicked(recommendation)
-            }
         }
     }
 
@@ -31,6 +28,6 @@ class RecommendationAdapter(private val recommendationList: List<Recommendation>
     }
 
     override fun getItemCount(): Int {
-        return recommendationList.size
+        return Constants.SUPPORT_CARD_SIZE
     }
 }
