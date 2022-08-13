@@ -5,6 +5,7 @@
     <item
         android:id="@+id/action_add"
         android:icon="@drawable/add_dr"
-        app:showAsAction="always"
-        android:title="Search"/>
+        app:showAsAction="ifRoom"
+        android:title="Search"
+        />
 </menu>

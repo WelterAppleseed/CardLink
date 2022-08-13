@@ -49,6 +49,10 @@ class UserCardsViewModel @Inject constructor(
     }
 
     fun deleteCard(code: String) {
+        for (i in cardsLiveData.value!!) if (i.barcode == code) {
+            println("1331313131")
+            cardsLiveData.value?.remove(i)
+        }
         viewModelScope.launch {
             deleteCardsUseCase.saveInput(code)
             deleteCardsUseCase.execute()

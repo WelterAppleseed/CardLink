@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/no_card_iv"
+        android:layout_width="@dimen/large_icon_side_size"
+        android:layout_height="@dimen/large_icon_side_size"
+        android:src="@drawable/wallet"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_discount_cards_will_be_displayed_here"
+        android:textSize="@dimen/stand_text_size_18sp"
+        android:layout_marginTop="@dimen/stand_margin_15dp"
+        android:textColor="@color/text_color_bright"
+        android:paddingHorizontal="@dimen/stand_margin_30dp"/>
+</LinearLayout>

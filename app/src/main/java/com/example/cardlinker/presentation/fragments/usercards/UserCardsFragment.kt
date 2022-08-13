@@ -21,8 +21,11 @@ import com.example.cardlinker.presentation.base.text_watchers.OnCardClickListene
 import com.example.cardlinker.presentation.fragments.usercards.recommendations.RecommendationAdapter
 import com.example.cardlinker.presentation.vm.NavigationViewModel
 import com.example.cardlinker.presentation.vm.RecommendationViewModel
+import com.example.cardlinker.presentation.vm.UserAppearanceViewModel
 import com.example.cardlinker.presentation.vm.UserCardsViewModel
+import com.example.cardlinker.util.objects.BalloonConstants
 import com.google.mlkit.vision.barcode.common.Barcode
+import com.skydoves.balloon.ArrowOrientation
 import dagger.hilt.android.AndroidEntryPoint
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
@@ -33,28 +36,55 @@ class UserCardsFragment :
     private val cardsViewModel: UserCardsViewModel by activityViewModels()
     private val navigationViewModel: NavigationViewModel by activityViewModels()
     private val recommendationViewModel: RecommendationViewModel by activityViewModels()
+    private val userAppearanceViewModel: UserAppearanceViewModel by activityViewModels()
     private val imagePicker = ImagePicker(this, this)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initCardRecycler()
+        initFirstTimeOnFragmentSituation()
         initRecommendationRecycler()
+        initCardRecycler()
+        initFirstTimeOnFragmentSituation()
     }
 
     private fun initCardRecycler() {
         cardsViewModel.getCards().observe(viewLifecycleOwner) {
             binding.apply {
-                if (it != null) {
+                if (it != null && it.isNotEmpty()) {
+                    noCardLayout.root.visibility = View.GONE
                     myCardRecycler.adapter = UserCardsAdapter(it, this@UserCardsFragment)
                     myCardRecycler.layoutManager = GridLayoutManager(context, 2)
                     if (it.size > 6) OverScrollDecoratorHelper.setUpOverScroll(
                         myCardRecycler,
                         OverScrollDecoratorHelper.ORIENTATION_VERTICAL
                     )
-                    initToolbar()
+                } else {
+                    println("$it sdfgsdfgs")
+                    noCardLayout.root.visibility = View.VISIBLE
+                }
+                initToolbar()
+            }
+        }
+    }
+    private fun initFirstTimeOnFragmentSituation() {
+        userAppearanceViewModel.checkFirstTimeOnFragment(binding.javaClass.name)
+        userAppearanceViewModel.getIsFirstTimeOnFragment().observe(viewLifecycleOwner) {
+            if (it) {
+                println("1")
+                binding.apply {
+                    myCardTv.visibility = View.GONE
+                    noCardLayout.root.visibility = View.VISIBLE
+                    displayTooltip()
                 }
             }
         }
     }
+    private fun displayTooltip() {
+        getToolTip(context?.getString(R.string.tooltip_add_cards), ArrowOrientation.TOP, BalloonConstants.ARROW_POSITION_WITH_CORNERS)?.showAlignBottom(
+            binding.searchAddBar,
+            binding.searchView.layoutParams.width / 2
+        )
+    }
+
 
     private fun initRecommendationRecycler() {
         recommendationViewModel.getRecommendations().observe(viewLifecycleOwner) {
@@ -113,10 +143,12 @@ class UserCardsFragment :
                         viewBinding.fromGalleryTv.setOnClickListener {
                             dialog.dismiss()
                             imagePicker.startPickingImageFromGallery()
+                            userAppearanceViewModel.updateFirstTimeOnFragmentState()
                         }
                         viewBinding.fromPhotoTv.setOnClickListener {
                             dialog.dismiss()
                             navigationViewModel.goToCameraFragment()
+                            userAppearanceViewModel.updateFirstTimeOnFragmentState()
                         }
                     }
                 }

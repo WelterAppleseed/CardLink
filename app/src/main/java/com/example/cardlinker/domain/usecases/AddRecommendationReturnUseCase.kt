@@ -2,7 +2,6 @@ package com.example.cardlinker.domain.usecases
 
 import com.example.cardlinker.domain.models.Recommendation
 import com.example.cardlinker.domain.repository.AddRecommendationRepository
-import com.example.cardlinker.domain.usecases.base.BaseReturnUseCase
 import com.example.cardlinker.domain.usecases.base.BaseVoidUseCase
 import javax.inject.Inject
 

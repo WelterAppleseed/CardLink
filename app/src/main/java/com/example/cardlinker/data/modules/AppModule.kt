@@ -57,6 +57,10 @@ class AppModule {
     @Singleton
     fun provideAddRecommendationRepository(addRecommendationDao: RecommendationDao): AddRecommendationRepository = AddRecommendationRepositoryImpl(addRecommendationDao)
 
+    @Provides
+    @Singleton
+    fun provideFirstTimeOnFragmentRepository(sharedPreferences: SharedPreferences): FirstTimeOnFragmentRepository = FirstTimeOnFragmentRepositoryImpl(sharedPreferences)
+
 
     @Provides
     @Singleton
