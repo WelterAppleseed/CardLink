@@ -2,6 +2,7 @@ package com.example.cardlinker.data.local.dao
 
 import androidx.room.*
 import com.example.cardlinker.domain.models.Card
+import com.example.cardlinker.domain.models.Code
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -10,6 +11,6 @@ interface CardDao {
     fun getCards(): Flow<List<Card>>
     @Insert
     suspend fun insertCard(card: Card)
-    @Query("DELETE FROM card WHERE barcode=:code")
-    suspend fun deleteCard(code: String)
+    @Query("DELETE FROM card WHERE number=:number")
+    suspend fun deleteCard(number: String)
 }

@@ -30,6 +30,7 @@
     <color name="text_color_bright">#c3bcc3</color>
     <color name="selected_circle_color">#99306c</color>
     <color name="primaryRedColor">#f65751</color>
+    <color name="primaryRedColorBright">#FFC4C2</color>
     <color name="unselected_circle_color">#6a2861</color>
     <color name="theme_background_color">#241722</color>
 </resources>

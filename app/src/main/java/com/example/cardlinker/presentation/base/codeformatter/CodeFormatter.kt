@@ -33,7 +33,6 @@ class CodeFormatter {
                 codeBitmap != null -> {
                     scanner.process(InputImage.fromBitmap(codeBitmap!!, 0))
                         .addOnSuccessListener { barcodeList ->
-                            listener!!.onCodeFormatted(barcodeList)
                         }
                         .addOnCanceledListener {
                             println("error")
@@ -42,7 +41,6 @@ class CodeFormatter {
                 codeUri != null && context != null -> {
                     scanner.process(InputImage.fromFilePath(context, codeUri!!))
                         .addOnSuccessListener { barcodeList ->
-                            listener!!.onCodeFormatted(barcodeList)
                         }
                         .addOnCanceledListener {
                             println("error")

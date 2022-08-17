@@ -14,6 +14,7 @@ import com.example.cardlinker.databinding.FragmentWalletLayoutBinding
 import com.example.cardlinker.databinding.InitializationErrorDialogBinding
 import com.example.cardlinker.databinding.SelectImageDialogBinding
 import com.example.cardlinker.domain.models.Card
+import com.example.cardlinker.domain.models.Code
 import com.example.cardlinker.presentation.base.BaseFragment
 import com.example.cardlinker.presentation.base.codeformatter.OnCodeFormattedListener
 import com.example.cardlinker.presentation.base.image_picker.ImagePicker
@@ -58,7 +59,6 @@ class UserCardsFragment :
                         OverScrollDecoratorHelper.ORIENTATION_VERTICAL
                     )
                 } else {
-                    println("$it sdfgsdfgs")
                     noCardLayout.root.visibility = View.VISIBLE
                 }
                 initToolbar()
@@ -69,7 +69,6 @@ class UserCardsFragment :
         userAppearanceViewModel.checkFirstTimeOnFragment(binding.javaClass.name)
         userAppearanceViewModel.getIsFirstTimeOnFragment().observe(viewLifecycleOwner) {
             if (it) {
-                println("1")
                 binding.apply {
                     myCardTv.visibility = View.GONE
                     noCardLayout.root.visibility = View.VISIBLE
@@ -80,7 +79,7 @@ class UserCardsFragment :
     }
     private fun displayTooltip() {
         getToolTip(context?.getString(R.string.tooltip_add_cards), ArrowOrientation.TOP, BalloonConstants.ARROW_POSITION_WITH_CORNERS)?.showAlignBottom(
-            binding.searchAddBar,
+            binding.placeholderL,
             binding.searchView.layoutParams.width / 2
         )
     }
@@ -107,33 +106,19 @@ class UserCardsFragment :
                         null
                     )
                 )
-                searchView.layoutParams = Toolbar.LayoutParams(
-                    resources.getDimension(R.dimen.search_field_part_width).toInt(),
-                    Toolbar.LayoutParams.WRAP_CONTENT
-                )
-                searchAddBar.menu.getItem(0).isEnabled = false
-                searchAddBar.menu.getItem(0).isVisible = false
-                cancelTv.visibility = View.VISIBLE
+                searchAddBar.menu.clear()
+                searchAddBar.inflateMenu(R.menu.search_menu_short)
                 myCardTv.visibility = View.GONE
                 horizontalRecommendationLayout.root.visibility = View.GONE
             }, {
                 recyclerLayout.backgroundTintList = null
-                searchView.layoutParams = Toolbar.LayoutParams(
-                    Toolbar.LayoutParams.MATCH_PARENT,
-                    Toolbar.LayoutParams.WRAP_CONTENT
-                )
-                searchAddBar.menu.getItem(0).isEnabled = true
-                searchAddBar.menu.getItem(0).isVisible = true
+                searchAddBar.menu.clear()
+                searchAddBar.inflateMenu(R.menu.search_menu)
                 myCardTv.visibility = View.VISIBLE
                 horizontalRecommendationLayout.root.visibility = View.VISIBLE
-                cancelTv.visibility = View.GONE
             })
             searchView.setOnTextChangedListener { changedPart ->
                 (myCardRecycler.adapter as UserCardsAdapter).filter(changedPart)
-            }
-            cancelTv.setOnClickListener {
-                searchView.removeFocus()
-                hideKeyboard()
             }
             context?.let { it1 -> ContextCompat.getColor(it1, R.color.theme_background_color) }
                 ?.let { it2 -> drawStatusBar(it2, false) }
@@ -153,10 +138,13 @@ class UserCardsFragment :
                     }
                 }
             searchAddBar.apply {
-                val addIcon = menu.findItem(R.id.action_add)
                 setOnMenuItemClickListener {
-                    if (it == addIcon) {
-                        dialog.show()
+                    when (it.itemId) {
+                        R.id.action_add -> dialog.show()
+                        R.id.action_cancel -> {
+                            searchView.removeFocus()
+                            hideKeyboard()
+                        }
                     }
                     return@setOnMenuItemClickListener true
                 }
@@ -166,18 +154,15 @@ class UserCardsFragment :
 
     override fun onCardClicked(card: Card) {
         navigationViewModel.goToCardInitializingFragment()
-        cardsViewModel.saveCode(card.barcode)
+        cardsViewModel.saveCode(card.code)
     }
 
-    override fun onCodeFormatted(codes: List<Barcode>) {
-        for (code in codes) {
-            if (code.rawValue != null) {
-                navigationViewModel.goToCardInitializingFragment()
-                cardsViewModel.saveCode(code.rawValue!!)
-                break
-            }
+    override fun onCodeFormatted(code: Code?) {
+        if (code?.data != null) {
+            navigationViewModel.goToCardInitializingFragment()
+            cardsViewModel.saveCode(code)
         }
-        if (codes.isEmpty()) {
+        if (code == null) {
             createCustomDialog(InitializationErrorDialogBinding.inflate(layoutInflater)) { thisViewBinding, dialog ->
                 if (thisViewBinding is InitializationErrorDialogBinding) {
                     thisViewBinding.errorCloseB.setOnClickListener {

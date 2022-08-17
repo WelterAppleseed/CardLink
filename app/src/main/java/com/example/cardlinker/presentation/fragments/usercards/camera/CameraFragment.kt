@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.cardlinker.R
 import com.example.cardlinker.databinding.FragmentCameraBinding
 import com.example.cardlinker.databinding.InitializationErrorDialogBinding
+import com.example.cardlinker.domain.models.Code
 import com.example.cardlinker.presentation.base.BaseFragment
 import com.example.cardlinker.presentation.base.codeformatter.CodeFormatter
 import com.example.cardlinker.presentation.base.codeformatter.OnCodeFormattedListener
@@ -47,16 +48,13 @@ class CameraFragment: BaseFragment<FragmentCameraBinding>(FragmentCameraBinding:
             }
         }.show()
     }
-    override fun onCodeFormatted(codes: List<Barcode>) {
-        for (code in codes) {
-            if (code.rawValue != null) {
-                cardsViewModel.saveCode(code.rawValue!!)
-                binding.cameraView.clearForeground()
-                navigationViewModel.goToCardInitializingFragment()
-                break
-            }
+    override fun onCodeFormatted(code: Code?) {
+        if (code?.data != null) {
+            cardsViewModel.saveCode(code)
+            binding.cameraView.clearForeground()
+            navigationViewModel.goToCardInitializingFragment()
         }
-        if (codes.isEmpty()) {
+        if (code == null) {
             showDialog()
             binding.cameraView.clearForeground()
             navigationViewModel.goToUserCardsFragment()

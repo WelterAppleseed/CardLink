@@ -3,6 +3,7 @@ package com.example.cardlinker.presentation.vm
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.cardlinker.domain.models.Card
+import com.example.cardlinker.domain.models.Code
 import com.example.cardlinker.domain.usecases.DeleteCardReturnUseCase
 import com.example.cardlinker.domain.usecases.GetCardsReturnUseCase
 import com.example.cardlinker.presentation.base.BaseViewModel
@@ -17,7 +18,7 @@ class UserCardsViewModel @Inject constructor(
     private val deleteCardsUseCase: DeleteCardReturnUseCase
 ) : BaseViewModel() {
     private val cardsLiveData = MutableLiveData<ArrayList<Card>>(null)
-    private val codeLiveData = MutableLiveData<String?>(null)
+    private val codeLiveData = MutableLiveData<Code?>(null)
 
     init {
         initializeCards()
@@ -34,7 +35,7 @@ class UserCardsViewModel @Inject constructor(
 
     }
 
-    fun saveCode(code: String) {
+    fun saveCode(code: Code) {
         this.codeLiveData.value = code
     }
 
@@ -48,13 +49,12 @@ class UserCardsViewModel @Inject constructor(
         }
     }
 
-    fun deleteCard(code: String) {
-        for (i in cardsLiveData.value!!) if (i.barcode == code) {
-            println("1331313131")
+    fun deleteCard(cardNumber: String) {
+        for (i in cardsLiveData.value!!) if (i.number== cardNumber) {
             cardsLiveData.value?.remove(i)
         }
         viewModelScope.launch {
-            deleteCardsUseCase.saveInput(code)
+            deleteCardsUseCase.saveInput(cardNumber)
             deleteCardsUseCase.execute()
         }
     }

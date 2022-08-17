@@ -2,6 +2,7 @@ package com.example.cardlinker.presentation.base.image_picker
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -10,6 +11,7 @@ import android.provider.MediaStore
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.example.cardlinker.presentation.base.code_creator.CodeReader
 import com.example.cardlinker.presentation.base.codeformatter.CodeFormatter
 import com.example.cardlinker.presentation.base.codeformatter.OnCodeFormattedListener
 
@@ -32,7 +34,8 @@ class ImagePicker(fragment: Fragment, onCodeFormatted: OnCodeFormattedListener) 
                 fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                     if (result.resultCode == Activity.RESULT_OK) {
                         uriImage = result?.data?.data
-                       CodeFormatter(uriImage!!, onCodeFormatted).process(fragment.context)
+                        uriImage?.let { CodeReader.readImage(it, fragment.requireContext().contentResolver) }
+                            ?.let { onCodeFormatted.onCodeFormatted(it) }
                     }
                 }
         }
@@ -41,7 +44,8 @@ class ImagePicker(fragment: Fragment, onCodeFormatted: OnCodeFormattedListener) 
                 fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                     if (result.resultCode == Activity.RESULT_OK) {
                         bitmapImage = result?.data?.extras?.get("data") as Bitmap
-                        CodeFormatter(bitmapImage!!, onCodeFormatted).process(fragment.context)
+                        bitmapImage?.let { CodeReader.readImage(it) }
+                            ?.let { onCodeFormatted.onCodeFormatted(it) }
                     }
                 }
 

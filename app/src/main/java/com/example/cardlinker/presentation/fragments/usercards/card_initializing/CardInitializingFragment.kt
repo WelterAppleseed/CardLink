@@ -2,49 +2,57 @@ package com.example.cardlinker.presentation.fragments.usercards.card_initializin
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ScrollView
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cardlinker.R
 import com.example.cardlinker.databinding.FragmentCardInitializingBinding
 import com.example.cardlinker.domain.models.Card
+import com.example.cardlinker.domain.models.Code
+import com.example.cardlinker.domain.models.Style
 import com.example.cardlinker.presentation.base.BaseFragment
 import com.example.cardlinker.presentation.base.code_creator.CodeCreator
-import com.example.cardlinker.presentation.base.text_watchers.CardTextWatcher
 import com.example.cardlinker.presentation.fragments.usercards.CardBackground
+import com.example.cardlinker.presentation.fragments.usercards.card_initializing.styles.CardStylesAdapter
+import com.example.cardlinker.presentation.fragments.usercards.card_initializing.styles.OnStyleClickedListener
 import com.example.cardlinker.presentation.vm.NavigationViewModel
 import com.example.cardlinker.presentation.vm.UserCardsViewModel
 import com.example.cardlinker.util.codeWithSpaces
-import com.google.zxing.EncodeHintType
+import com.example.cardlinker.util.objects.Styles
+import com.google.zxing.BarcodeFormat
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import java.util.*
 
 class CardInitializingFragment :
-    BaseFragment<FragmentCardInitializingBinding>(FragmentCardInitializingBinding::inflate) {
+    BaseFragment<FragmentCardInitializingBinding>(FragmentCardInitializingBinding::inflate),
+    OnStyleClickedListener {
     private val cardsViewModel: UserCardsViewModel by activityViewModels()
     private val navigationViewModel: NavigationViewModel by activityViewModels()
     private var cardBackground = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initToolbar()
         cardsViewModel.getCode().observe(viewLifecycleOwner) { code ->
             if (code != null) {
-                cardsViewModel.getCards().observe(viewLifecycleOwner) {cards ->
+                cardsViewModel.getCards().observe(viewLifecycleOwner) { cards ->
                     run {
                         binding.apply {
                             for (card in cards) {
-                                if (card.barcode == code) {
-                                        acceptB.visibility = View.GONE
-                                        problemWithCardLayout.root.visibility = View.VISIBLE
-                                        problemWithCardLayout.contactB.setOnClickListener {
-                                            //TODO
-                                        }
-                                    initToolbarMenu(code)
+                                if (card.code.data == code.data) {
+                                    changeToolbar(code)
+                                    acceptB.visibility = View.GONE
+                                    problemWithCardLayout.root.visibility = View.VISIBLE
+                                    problemWithCardLayout.contactB.setOnClickListener {
+                                        //TODO
+                                    }
+                                    initCardData(card)
                                     break
                                 }
                             }
                             displayCode(code)
-                            initCardData(code)
+                            if (stylesRecycler.visibility == View.VISIBLE) {
+                                initCardData(code)
+                            }
                             OverScrollDecoratorHelper.setUpOverScroll(initCardNestedScrollview)
                             context?.let { it1 -> getColor(it1, R.color.toolbar_background_color) }
                                 ?.let { it2 -> drawStatusBar(it2, false) }
@@ -53,9 +61,10 @@ class CardInitializingFragment :
                                     cardsViewModel.saveCard(
                                         Card(
                                             name = cardTitleTv.text.toString(),
-                                            barcode = code,
-                                            number = code,
-                                            background = cardBackground
+                                            code = code,
+                                            number = code.data,
+                                            background = cardBackground,
+                                            style = discountCardView.getStyle()
                                         )
                                     )
                                     navigationViewModel.goToUserCardsFragment()
@@ -68,64 +77,135 @@ class CardInitializingFragment :
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        cardsViewModel.deleteCode()
-    }
-    private fun initCardData(cardNumber: String) {
+    private fun initStylesRecycler() {
         binding.apply {
-            val pair = CardBackground.getSrcAndNameIfExist(cardNumber)
-            if (pair != null) {
-                discountCardView.setSrcAndName(pair)
-                initToolbar(pair.second)
-                codeLayout.cardTitleTv.text = pair.second
-                cardBackground = pair.first
-            } else {
-                discountCardView.ifCardRecognizeError()
-                cardBackground = R.drawable.card_field
-            }
-            codeLayout.apply {
-                bottomCodeTv.text = cardNumber.codeWithSpaces()
-                cardNumTv.text = cardNumber
-            }
-        }
-    }
-    private fun initToolbar(title: String) {
-        binding.apply {
-            cardToolbar.setNavigationOnClickListener {
-                navigationViewModel.goToUserCardsFragment()
-            }
-            binding.cardToolbarTitle.text = title
+            stylesRecycler.adapter = CardStylesAdapter(this@CardInitializingFragment)
+            stylesRecycler.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
-    private fun initToolbarMenu(code: String) {
+    private fun changeToolbar(code: Code) {
         binding.apply {
             cardToolbar.inflateMenu(R.menu.init_close_menu)
             cardToolbar.setOnMenuItemClickListener {
                 if (it.itemId == R.id.action_delete) {
-                    cardsViewModel.deleteCard(code)
+                    cardsViewModel.deleteCard(code.data)
                     navigationViewModel.goToUserCardsFragment()
                     return@setOnMenuItemClickListener true
                 }
                 return@setOnMenuItemClickListener false
+
             }
         }
     }
-    private fun displayCode(code: String) {
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cardsViewModel.deleteCode()
+    }
+    private fun initCardData(card: Card) {
         binding.apply {
-            val widthPixels = resources.getDimensionPixelSize(R.dimen.code_width)
-            val heightPixels = resources.getDimensionPixelSize(R.dimen.code_height)
-            codeLayout.codeIv.setImageBitmap(
-                CodeCreator.createBarcodeBitmap(
-                    barcodeValue = code,
-                    widthPixels = widthPixels,
-                    heightPixels = heightPixels
-                )
-            )
-            codeLayout.bottomCodeTv.text = code.codeWithSpaces()
+            card.name?.let { initToolbarMenu(it) }
+            stylesRecycler.visibility = View.GONE
+            discountCardView.setForegroundVisibility(View.VISIBLE )
+            card.name?.let { discountCardView.setCardName(it) }
+            card.style?.let { discountCardView.changeStyle(it) }
+            codeLayout.apply {
+                bottomCodeTv.text = card.number?.codeWithSpaces()
+                cardNumTv.text = card.number
+                cardTitleTv.text = card.name
+            }
+        }
+    }
+    private fun initCardData(code: Code) {
+        binding.apply {
+            val pair = CardBackground.getSrcAndNameIfExist(code.data)
+            if (pair != null) {
+                println("3131313111")
+                stylesRecycler.visibility = View.GONE
+                discountCardView.setSrc(pair.first)
+                discountCardView.setCardName(pair.second)
+                initToolbarMenu(pair.second)
+                codeLayout.cardTitleTv.text = pair.second
+                cardBackground = pair.first
+            } else {
+                initStylesRecycler()
+                println("3131313111sdfgsdgsdf")
+                discountCardView.changeStyle(Styles.MARKET_STYLE)
+                discountCardView.connectWithTextView(codeLayout.cardTitleTv)
+                discountCardView.ifCardRecognizeError()
+                cardBackground = R.drawable.card_field
+            }
+            codeLayout.apply {
+                bottomCodeTv.text = code.data.codeWithSpaces()
+                cardNumTv.text = code.data
+            }
+        }
+    }
+
+    private fun initToolbar() {
+        binding.apply {
+            cardToolbar.setNavigationOnClickListener {
+                navigationViewModel.goToUserCardsFragment()
+            }
+        }
+    }
+
+    private fun initToolbarMenu(name: String) {
+        binding.apply {
+            binding.cardToolbarTitle.text = name
+        }
+    }
+
+    private fun displayCode(code: Code) {
+        binding.apply {
+            when (code.barcodeFormat) {
+                BarcodeFormat.QR_CODE -> {
+                    val widthPixels = resources.getDimensionPixelSize(R.dimen.qr_code_side_size)
+                    val heightPixels = resources.getDimensionPixelSize(R.dimen.qr_code_side_size)
+                    codeLayout.codeIv.setImageBitmap(
+                        CodeCreator.createQrCodeBitmap(
+                            code = code,
+                            widthPixels = widthPixels,
+                            heightPixels = heightPixels
+                        )
+                    )
+                }
+                BarcodeFormat.EAN_13 -> {
+                    val widthPixels = resources.getDimensionPixelSize(R.dimen.barcode_width)
+                    val heightPixels = resources.getDimensionPixelSize(R.dimen.barcode_height)
+                    codeLayout.codeIv.setImageBitmap(
+                        CodeCreator.createBarcodeBitmap(
+                            code = code,
+                            widthPixels = widthPixels,
+                            heightPixels = heightPixels
+                        )
+                    )
+                }
+                else -> {}
+            }
+            codeLayout.bottomCodeTv.text = code.data.codeWithSpaces()
         }
     }
 
     override var bottomNavigationViewVisibility: Int = View.GONE
+
+    override fun onStyleClicked(styleName: String) {
+        binding.apply {
+            when (styleName) {
+                Styles.MARKET_STYLE.styleName -> {
+                    discountCardView.changeStyle(Styles.MARKET_STYLE)
+                }
+                Styles.TECH_STYLE.styleName -> {
+                    discountCardView.changeStyle(Styles.TECH_STYLE)
+                }
+                Styles.COSMETIC_STYLE.styleName -> {
+                    discountCardView.changeStyle(Styles.COSMETIC_STYLE)
+                }
+                Styles.CLOTHES_STYLE.styleName -> {
+                    discountCardView.changeStyle(Styles.CLOTHES_STYLE)
+                }
+            }
+        }
+    }
 }

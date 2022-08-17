@@ -25,7 +25,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/stand_margin_10dp" />
-
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:background="@drawable/container_background"
+                android:layout_marginVertical="@dimen/stand_margin_15dp"
+                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/styles_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:requiresFadingEdge="horizontal"
+                    android:fadingEdgeLength="@dimen/stand_margin_40dp" />
+            </FrameLayout>
             <include
                 android:id="@+id/code_layout"
                 layout="@layout/code_layout"

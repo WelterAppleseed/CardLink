@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:actionMenuTextColor">@color/text_color_bright</item>
         <item name="android:textColor">@color/text_color_bright</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>

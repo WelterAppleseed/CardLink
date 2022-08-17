@@ -11,7 +11,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import com.example.cardlinker.R
+import com.example.cardlinker.domain.models.Style
 import com.example.cardlinker.presentation.base.text_watchers.CardTextWatcher
 
 class CreditCardView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
@@ -19,6 +22,7 @@ class CreditCardView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
     private var foreground: ImageView
     private var cardNumberTv: TextView
     private var cardNameEt: EditText
+    private var style: Style? = null
     init {
         LayoutInflater.from(context).inflate(R.layout.including_card_view, this, true)
         val attributes: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.CreditCardView)
@@ -28,7 +32,14 @@ class CreditCardView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
         cardNameEt = findViewById(R.id.card_name_et)
         attributes.recycle()
     }
-    private fun changeStyle(style: Int) {
+    fun getStyle(): Style? = style
+    fun changeStyle(style: Style) {
+        background.background = ContextCompat.getDrawable(context, style.cardBackground)
+        foreground.background = ContextCompat.getDrawable(context, style.cardForeground)
+        this.style = style
+    }
+    fun setForegroundVisibility(visibility: Int) {
+        foreground.visibility = visibility
     }
     fun getCardNumber(): Long {
         return cardNumberTv.text.toString().toLong()
@@ -36,10 +47,15 @@ class CreditCardView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
     fun getCardTitle(): String {
         return cardNameEt.text.toString()
     }
-    fun setSrcAndName(pair: Pair<Int, String>?) {
-        if (pair != null) {
-            background.setImageResource(pair.first)
-            cardNameEt.setText(pair.second)
+    fun setSrc(source: Int) {
+        background.background = ContextCompat.getDrawable(context, source)
+    }
+    fun setCardName(name: String) {
+        cardNameEt.setText(name)
+    }
+    fun connectWithTextView(textView: TextView){
+        cardNameEt.doOnTextChanged { text, start, before, count ->
+            textView.text = text
         }
     }
     fun ifCardRecognizeError() {

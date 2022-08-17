@@ -2,6 +2,7 @@ package com.example.cardlinker.presentation.fragments.usercards
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cardlinker.R
 import com.example.cardlinker.databinding.ItemCardRecyclerBinding
@@ -15,10 +16,15 @@ class UserCardsAdapter(private val cardList: List<Card>, onCardClicked: OnCardCl
     inner class ViewHolder(private val binding: ItemCardRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(card: Card) {
-            println(R.drawable.okei)
-            binding.cardItem.setImageResource(card.background)
-            binding.cardItem.setOnClickListener {
-                onCardClickedListener.onCardClicked(card)
+            binding.cardItem.apply {
+                background = ResourcesCompat.getDrawable(
+                    resources,
+                    if (card.style != null) card.style.cardBackground else card.background,
+                    null
+                )
+                setOnClickListener {
+                    onCardClickedListener.onCardClicked(card)
+                }
             }
         }
     }
