@@ -28,6 +28,7 @@
     <color name="bright_icon_color">#f3e8f2</color>
     <color name="attent_blue_color">#4993E3</color>
     <color name="text_color_dark">#655863</color>
+    <color name="text_color_medium">#8C858C</color>
     <color name="text_color_bright">#c3bcc3</color>
     <color name="selected_circle_color">#99306c</color>
     <color name="primaryRedColor">#f65751</color>

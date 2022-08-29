@@ -46,6 +46,14 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/stand_margin_25dp</item>
     </style>
+    <style name="MediumRoundedCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/stand_margin_20dp</item>
+    </style>
+    <style name="SmallCardCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">19dp</item>
+    </style>
     <style name="MyAlertTextAppearance">
         <item name="android:textSize">18sp</item>
         <item name="android:gravity">center</item>

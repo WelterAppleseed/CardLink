@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_background_color">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/cards_management_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolbar_background_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/back_dr">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/cards_management"
+            android:textColor="@color/white"
+            android:textSize="@dimen/stand_text_size_18sp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/your_cards_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/stand_margin_15dp"
+        android:layout_marginTop="@dimen/stand_margin_40dp"
+        android:text="@string/your_cards"
+        android:textColor="@color/text_color_medium"
+        android:textSize="@dimen/stand_text_size_20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cards_management_toolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/small_cards_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/dialog_background_color"
+        android:padding="@dimen/stand_margin_20dp"
+        android:layout_marginTop="@dimen/stand_margin_10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_cards_tv"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp" />
+    <include layout="@layout/no_small_cards_layout"
+        android:id="@+id/no_cards_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/small_cards_recycler"
+        android:layout_marginTop="@dimen/big_margin_50dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

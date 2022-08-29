@@ -40,4 +40,7 @@
     <string name="password">Password</string>
     <string name="save">Save</string>
     <string name="change_password">Change Password</string>
+    <string name="cards_management">Cards Management</string>
+    <string name="your_cards">Your Cards</string>
+    <string name="there_is_no_cards_yet">There is no cards yet</string>
 </resources>

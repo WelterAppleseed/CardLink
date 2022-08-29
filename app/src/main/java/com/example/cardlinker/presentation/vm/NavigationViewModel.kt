@@ -23,4 +23,6 @@ class NavigationViewModel @Inject constructor(
     fun goToMenuFragment() = router.newRootChain(Screens.menuFragment())
 
     fun goToProfileFragment() = router.newRootChain(Screens.profileFragment())
+
+    fun goToCardsManagementFragment() = router.newRootChain(Screens.cardsManagementFragment())
 }

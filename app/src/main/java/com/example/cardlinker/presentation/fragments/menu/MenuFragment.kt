@@ -24,6 +24,7 @@ class MenuFragment: BaseFragment<FragmentMenuBinding>(FragmentMenuBinding::infla
     override fun onMenuItemClicked(cardMenuItem: CardMenuItem) {
         when (cardMenuItem) {
             CardMenuItem.PROFILE -> navigationViewModel.goToProfileFragment()
+            CardMenuItem.CARDS_MANAGEMENT -> navigationViewModel.goToCardsManagementFragment()
         }
     }
 }
