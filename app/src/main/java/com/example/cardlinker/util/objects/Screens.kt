@@ -2,6 +2,8 @@ package com.example.cardlinker.util.objects
 
 import com.example.cardlinker.presentation.fragments.usercards.camera.CameraFragment
 import com.example.cardlinker.presentation.fragments.enter_banners.EnterBannersFragment
+import com.example.cardlinker.presentation.fragments.menu.MenuFragment
+import com.example.cardlinker.presentation.fragments.menu.profile.ProfileFragment
 import com.example.cardlinker.presentation.fragments.supported_cards_fragment.SupportedCardsFragment
 import com.example.cardlinker.presentation.fragments.usercards.UserCardsFragment
 import com.example.cardlinker.presentation.fragments.usercards.card_initializing.CardInitializingFragment
@@ -13,4 +15,6 @@ object Screens {
     fun cardInitializingFragment() = FragmentScreen { CardInitializingFragment() }
     fun cameraFragment() = FragmentScreen { CameraFragment() }
     fun supportedCardsFragment() = FragmentScreen { SupportedCardsFragment() }
+    fun menuFragment() = FragmentScreen { MenuFragment() }
+    fun profileFragment() = FragmentScreen { ProfileFragment() }
 }

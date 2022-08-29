@@ -1,5 +1,5 @@
 package com.example.cardlinker.domain.usecases.base
 
-interface BaseVoidUseCase {
+interface BaseSuspendVoidUseCase {
     suspend fun execute()
 }

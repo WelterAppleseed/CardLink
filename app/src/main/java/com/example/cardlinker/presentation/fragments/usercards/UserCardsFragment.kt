@@ -3,8 +3,6 @@ package com.example.cardlinker.presentation.fragments.usercards
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,12 +18,8 @@ import com.example.cardlinker.presentation.base.codeformatter.OnCodeFormattedLis
 import com.example.cardlinker.presentation.base.image_picker.ImagePicker
 import com.example.cardlinker.presentation.base.text_watchers.OnCardClickListener
 import com.example.cardlinker.presentation.fragments.usercards.recommendations.RecommendationAdapter
-import com.example.cardlinker.presentation.vm.NavigationViewModel
-import com.example.cardlinker.presentation.vm.RecommendationViewModel
-import com.example.cardlinker.presentation.vm.UserAppearanceViewModel
-import com.example.cardlinker.presentation.vm.UserCardsViewModel
+import com.example.cardlinker.presentation.vm.*
 import com.example.cardlinker.util.objects.BalloonConstants
-import com.google.mlkit.vision.barcode.common.Barcode
 import com.skydoves.balloon.ArrowOrientation
 import dagger.hilt.android.AndroidEntryPoint
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
@@ -38,31 +32,52 @@ class UserCardsFragment :
     private val navigationViewModel: NavigationViewModel by activityViewModels()
     private val recommendationViewModel: RecommendationViewModel by activityViewModels()
     private val userAppearanceViewModel: UserAppearanceViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by activityViewModels()
     private val imagePicker = ImagePicker(this, this)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initFirstTimeOnFragmentSituation()
         initRecommendationRecycler()
         initCardRecycler()
-        initFirstTimeOnFragmentSituation()
     }
 
     private fun initCardRecycler() {
-        cardsViewModel.getCards().observe(viewLifecycleOwner) {
-            binding.apply {
-                if (it != null && it.isNotEmpty()) {
-                    noCardLayout.root.visibility = View.GONE
-                    myCardRecycler.adapter = UserCardsAdapter(it, this@UserCardsFragment)
-                    myCardRecycler.layoutManager = GridLayoutManager(context, 2)
-                    if (it.size > 6) OverScrollDecoratorHelper.setUpOverScroll(
-                        myCardRecycler,
-                        OverScrollDecoratorHelper.ORIENTATION_VERTICAL
-                    )
-                } else {
-                    noCardLayout.root.visibility = View.VISIBLE
+        userAppearanceViewModel.getIsLoggedIn().observe(viewLifecycleOwner) { isLoggedIn ->
+            if (isLoggedIn) {
+                accountViewModel.getAccount().observe(viewLifecycleOwner) { account ->
+                    println(account)
+                    if (account != null) {
+                        cardsViewModel.initLinkedCards(account.hashCode())
+                        println(account.hashCode())
+                        cardsViewModel.getLinkedCards().observe(viewLifecycleOwner) { cards ->
+                            println("$cards asaassa")
+                            cardRecycler(cards)
+                        }
+                    }
                 }
-                initToolbar()
+            } else {
+                println("2")
+                cardsViewModel.getNotLinkedCards().observe(viewLifecycleOwner) {
+                    println("$it asaasdfdfgfsa")
+                    cardRecycler(it)
+                }
             }
+        }
+    }
+    private fun cardRecycler(cards: List<Card>?) {
+        binding.apply {
+            if (cards != null && cards.isNotEmpty()) {
+                noCardLayout.root.visibility = View.GONE
+                myCardRecycler.adapter = UserCardsAdapter(cards, this@UserCardsFragment)
+                myCardRecycler.layoutManager = GridLayoutManager(context, 2)
+                if (cards.size > 6) OverScrollDecoratorHelper.setUpOverScroll(
+                    myCardRecycler,
+                    OverScrollDecoratorHelper.ORIENTATION_VERTICAL
+                )
+            } else {
+                noCardLayout.root.visibility = View.VISIBLE
+            }
+            initToolbar()
         }
     }
     private fun initFirstTimeOnFragmentSituation() {
@@ -120,8 +135,6 @@ class UserCardsFragment :
             searchView.setOnTextChangedListener { changedPart ->
                 (myCardRecycler.adapter as UserCardsAdapter).filter(changedPart)
             }
-            context?.let { it1 -> ContextCompat.getColor(it1, R.color.theme_background_color) }
-                ?.let { it2 -> drawStatusBar(it2, false) }
             val dialog =
                 createCustomDialog(SelectImageDialogBinding.inflate(layoutInflater)) { viewBinding, dialog ->
                     if (viewBinding is SelectImageDialogBinding) {

@@ -15,5 +15,6 @@ data class Card(
     val code: Code,
     val background: Int,
     @Embedded
-    val style: Style?
+    val style: Style?,
+    var accountHashCode: Int
 )

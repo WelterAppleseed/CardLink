@@ -9,6 +9,7 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cardlinker.R
+import com.example.cardlinker.presentation.vm.AccountViewModel
 import com.example.cardlinker.presentation.vm.NavigationViewModel
 import com.example.cardlinker.presentation.vm.UserAppearanceViewModel
 import com.github.terrakok.cicerone.NavigatorHolder
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        bottomNavigationViewInitialization()
         userAppearanceViewModel.getIsFirstTimeUsed().observe(this) { firstTime ->
             if (firstTime) {
                 navigationViewModel.goToEnterBannersFragment()
@@ -37,7 +38,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
+    private fun bottomNavigationViewInitialization() {
+        this.bottom_nav_view.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_cards -> {
+                    navigationViewModel.goToUserCardsFragment()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.action_menu -> {
+                    navigationViewModel.goToMenuFragment()
+                    return@setOnItemSelectedListener true
+                }
+            }
+            return@setOnItemSelectedListener false
+        }
+    }
     override fun onResumeFragments() {
         super.onResumeFragments()
         navigatorHolder.setNavigator(navigator)

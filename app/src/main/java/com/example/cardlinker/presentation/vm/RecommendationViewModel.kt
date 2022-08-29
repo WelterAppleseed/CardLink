@@ -2,8 +2,6 @@ package com.example.cardlinker.presentation.vm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.cardlinker.R
-import com.example.cardlinker.data.local.dao.RecommendationDao
 import com.example.cardlinker.domain.models.Recommendation
 import com.example.cardlinker.domain.usecases.AddRecommendationReturnUseCase
 import com.example.cardlinker.domain.usecases.GetRecommendationReturnUseCase

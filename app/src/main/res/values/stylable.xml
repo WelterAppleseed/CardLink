@@ -4,7 +4,7 @@
         <attr name="fieldColor" format="color"/>
     </declare-styleable>
     <declare-styleable name="CreditCardView">
-        <attr name="disign" format="enum">
+        <attr name="design" format="enum">
             <enum name="def" value="0"/>
             <enum name="product" value="1"/>
             <enum name="clothes" value="2"/>

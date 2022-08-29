@@ -49,7 +49,8 @@ class CardBackground {
             Triple(arrayOf("7000", "5000"), R.drawable.kanzler, "Kanzler"),
             Triple(arrayOf(";17", ";15", ";20"), R.drawable.adidas, "Adidas"),
             Triple(arrayOf("9000", "933"), R.drawable.gloria_jeans, "Gloria Jeans"),
-            Triple(arrayOf("3330"), R.drawable.nike, "Nike")
+            Triple(arrayOf("3330"), R.drawable.nike, "Nike"),
+            Triple(arrayOf("E"), R.drawable.magnit, "Magnit")
             )
         fun getSupportedCardsList(): List<Recommendation> {
             val list: ArrayList<Recommendation> = arrayListOf()

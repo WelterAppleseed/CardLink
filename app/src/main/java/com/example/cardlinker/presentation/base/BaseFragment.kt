@@ -97,8 +97,7 @@ open class BaseFragment<V : ViewBinding>(
             .setBackgroundColorResource(R.color.attent_blue_color)
             .setLifecycleOwner(viewLifecycleOwner)
             .setBalloonAnimation(BalloonAnimation.FADE)
-            .setDismissWhenTouchOutside(true)
-            .setDismissWhenClicked(true)
+            .setFocusable(false)
             .build()
         else {
             null

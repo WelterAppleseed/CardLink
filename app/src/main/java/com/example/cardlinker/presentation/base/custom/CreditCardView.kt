@@ -16,6 +16,7 @@ import androidx.core.widget.doOnTextChanged
 import com.example.cardlinker.R
 import com.example.cardlinker.domain.models.Style
 import com.example.cardlinker.presentation.base.text_watchers.CardTextWatcher
+import com.example.cardlinker.util.disable
 
 class CreditCardView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
     private var background: ImageView
@@ -40,6 +41,10 @@ class CreditCardView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
     }
     fun setForegroundVisibility(visibility: Int) {
         foreground.visibility = visibility
+    }
+    fun setNonEditableState() {
+        cardNameEt.disable()
+        cardNumberTv.disable()
     }
     fun getCardNumber(): Long {
         return cardNumberTv.text.toString().toLong()

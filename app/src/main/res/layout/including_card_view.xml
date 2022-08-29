@@ -45,6 +45,7 @@
         android:layout_marginTop="@dimen/stand_margin_20dp"
         android:hint="@string/card_title"
         android:maxLength="19"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="@dimen/stand_margin_5dp"
         android:textColor="@color/white"

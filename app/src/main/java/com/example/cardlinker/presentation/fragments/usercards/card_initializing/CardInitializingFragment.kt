@@ -15,9 +15,12 @@ import com.example.cardlinker.presentation.base.code_creator.CodeCreator
 import com.example.cardlinker.presentation.fragments.usercards.CardBackground
 import com.example.cardlinker.presentation.fragments.usercards.card_initializing.styles.CardStylesAdapter
 import com.example.cardlinker.presentation.fragments.usercards.card_initializing.styles.OnStyleClickedListener
+import com.example.cardlinker.presentation.vm.AccountViewModel
 import com.example.cardlinker.presentation.vm.NavigationViewModel
+import com.example.cardlinker.presentation.vm.UserAppearanceViewModel
 import com.example.cardlinker.presentation.vm.UserCardsViewModel
 import com.example.cardlinker.util.codeWithSpaces
+import com.example.cardlinker.util.objects.Constants
 import com.example.cardlinker.util.objects.Styles
 import com.google.zxing.BarcodeFormat
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
@@ -28,50 +31,72 @@ class CardInitializingFragment :
     OnStyleClickedListener {
     private val cardsViewModel: UserCardsViewModel by activityViewModels()
     private val navigationViewModel: NavigationViewModel by activityViewModels()
+    private val userAppearanceViewModel: UserAppearanceViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by activityViewModels()
     private var cardBackground = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
-        cardsViewModel.getCode().observe(viewLifecycleOwner) { code ->
-            if (code != null) {
-                cardsViewModel.getCards().observe(viewLifecycleOwner) { cards ->
-                    run {
-                        binding.apply {
-                            for (card in cards) {
-                                if (card.code.data == code.data) {
-                                    changeToolbar(code)
-                                    acceptB.visibility = View.GONE
-                                    problemWithCardLayout.root.visibility = View.VISIBLE
-                                    problemWithCardLayout.contactB.setOnClickListener {
-                                        //TODO
+        userAppearanceViewModel.getIsLoggedIn().observe(viewLifecycleOwner) {
+            cardsViewModel.getCode().observe(viewLifecycleOwner) { code ->
+                if (code != null) {
+                    if (it) {
+                        accountViewModel.getAccount().observe(viewLifecycleOwner) { account ->
+                            if (account != null) {
+                                cardsViewModel.initLinkedCards(account.hashCode())
+                                cardsViewModel.getLinkedCards()
+                                    .observe(viewLifecycleOwner) { cards ->
+                                        cardInitializing(code, cards, account.hashCode())
                                     }
-                                    initCardData(card)
-                                    break
-                                }
-                            }
-                            displayCode(code)
-                            if (stylesRecycler.visibility == View.VISIBLE) {
-                                initCardData(code)
-                            }
-                            OverScrollDecoratorHelper.setUpOverScroll(initCardNestedScrollview)
-                            context?.let { it1 -> getColor(it1, R.color.toolbar_background_color) }
-                                ?.let { it2 -> drawStatusBar(it2, false) }
-                            acceptB.setOnClickListener {
-                                codeLayout.apply {
-                                    cardsViewModel.saveCard(
-                                        Card(
-                                            name = cardTitleTv.text.toString(),
-                                            code = code,
-                                            number = code.data,
-                                            background = cardBackground,
-                                            style = discountCardView.getStyle()
-                                        )
-                                    )
-                                    navigationViewModel.goToUserCardsFragment()
-                                }
                             }
                         }
+                    } else {
+                        cardsViewModel.getNotLinkedCards()
+                            .observe(viewLifecycleOwner) { cards ->
+                                cardInitializing(code, cards, Constants.ACCOUNT_IS_NULL)
+                            }
                     }
+                }
+            }
+        }
+    }
+
+    private fun cardInitializing(code: Code, cards: List<Card>, accountHashCode: Int) {
+        binding.apply {
+            for (card in cards) {
+                if (card.code.data == code.data) {
+                    changeToolbar(code, (accountHashCode != Constants.ACCOUNT_IS_NULL))
+                    acceptB.visibility = View.GONE
+                    discountCardView.setNonEditableState()
+                    problemWithCardLayout.root.visibility = View.VISIBLE
+                    problemWithCardLayout.contactB.setOnClickListener {
+                        //TODO
+                    }
+                    initCardData(card)
+                    break
+                }
+            }
+            displayCode(code)
+            if (stylesRecycler.visibility == View.VISIBLE) {
+                initCardData(code)
+            }
+            OverScrollDecoratorHelper.setUpOverScroll(initCardNestedScrollview)
+            context?.let { it1 -> getColor(it1, R.color.toolbar_background_color) }
+                ?.let { it2 -> drawStatusBar(it2, false) }
+            acceptB.setOnClickListener {
+                codeLayout.apply {
+                    cardsViewModel.saveCard(
+                        Card(
+                            name = cardTitleTv.text.toString(),
+                            code = code,
+                            number = code.data,
+                            background = cardBackground,
+                            style = discountCardView.getStyle(),
+                            accountHashCode = accountHashCode
+                        ),
+                        (accountHashCode != Constants.ACCOUNT_IS_NULL)
+                    )
+                    navigationViewModel.goToUserCardsFragment()
                 }
             }
         }
@@ -80,16 +105,18 @@ class CardInitializingFragment :
     private fun initStylesRecycler() {
         binding.apply {
             stylesRecycler.adapter = CardStylesAdapter(this@CardInitializingFragment)
-            stylesRecycler.layoutManager =  LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            stylesRecycler.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
-    private fun changeToolbar(code: Code) {
+    private fun changeToolbar(code: Code, isLinked: Boolean) {
         binding.apply {
+            cardToolbar.menu.clear()
             cardToolbar.inflateMenu(R.menu.init_close_menu)
             cardToolbar.setOnMenuItemClickListener {
                 if (it.itemId == R.id.action_delete) {
-                    cardsViewModel.deleteCard(code.data)
+                    cardsViewModel.deleteCard(code.data, isLinked)
                     navigationViewModel.goToUserCardsFragment()
                     return@setOnMenuItemClickListener true
                 }
@@ -103,11 +130,12 @@ class CardInitializingFragment :
         super.onDestroyView()
         cardsViewModel.deleteCode()
     }
+
     private fun initCardData(card: Card) {
         binding.apply {
             card.name?.let { initToolbarMenu(it) }
             stylesRecycler.visibility = View.GONE
-            discountCardView.setForegroundVisibility(View.VISIBLE )
+            discountCardView.setForegroundVisibility(View.VISIBLE)
             card.name?.let { discountCardView.setCardName(it) }
             card.style?.let { discountCardView.changeStyle(it) }
             codeLayout.apply {
@@ -117,11 +145,11 @@ class CardInitializingFragment :
             }
         }
     }
+
     private fun initCardData(code: Code) {
         binding.apply {
             val pair = CardBackground.getSrcAndNameIfExist(code.data)
             if (pair != null) {
-                println("3131313111")
                 stylesRecycler.visibility = View.GONE
                 discountCardView.setSrc(pair.first)
                 discountCardView.setCardName(pair.second)
@@ -130,7 +158,6 @@ class CardInitializingFragment :
                 cardBackground = pair.first
             } else {
                 initStylesRecycler()
-                println("3131313111sdfgsdgsdf")
                 discountCardView.changeStyle(Styles.MARKET_STYLE)
                 discountCardView.connectWithTextView(codeLayout.cardTitleTv)
                 discountCardView.ifCardRecognizeError()
