@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 class GetAccountUseCase @Inject constructor(private val getAccountRepository: GetAccountRepository) :
     BaseReturnUseCase<Flow<Account>> {
-    private var encodedPassword: String? = null
-    fun saveInput(encodedPassword: String) = run { this.encodedPassword = encodedPassword }
+    private var email: String? = null
+    fun saveInput(email: String) = run { this.email = email }
     override fun execute(): Flow<Account> {
-        return getAccountRepository.getAccount(encodedPassword!!)
+        return getAccountRepository.getAccount(email!!)
     }
 
 }

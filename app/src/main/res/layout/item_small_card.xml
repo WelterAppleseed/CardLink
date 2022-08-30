@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dialog_background_color"
-    android:paddingTop="@dimen/stand_margin_10dp">
+    android:paddingTop="@dimen/stand_margin_10dp"
+    android:background="@color/toolbar_background_color">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/small_card_icon"
@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/stand_margin_5dp"
         android:gravity="center"
-        android:text="M"
         android:textColor="@color/white"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="@id/small_card_icon"
@@ -61,7 +60,7 @@
         android:layout_marginStart="@dimen/stand_margin_10dp"
         android:layout_marginBottom="@dimen/stand_margin_5dp"
         android:text="2018-08-09"
-        android:textColor="@color/text_color_dark"
+        android:textColor="@color/dark_gray"
         android:textSize="@dimen/stand_text_size_18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/small_card_icon"
@@ -78,6 +77,7 @@
         app:layout_constraintTop_toBottomOf="@+id/small_card_title" />
 
     <View
+        android:id="@+id/small_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/stand_margin_10dp"

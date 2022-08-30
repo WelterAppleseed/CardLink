@@ -71,9 +71,9 @@ class UserCardsViewModel @Inject constructor(
                 }
         }
     }
-    fun updateNotLinkedCardsWithAccountHashCode(accountHashCode: Int) {
+    fun updateCardsWithAccountHashCode(newAccountHashCode: Int, oldAccountHashCode: Int) {
         viewModelScope.launch {
-            updateCardAccountHashcodeUseCase.saveInput(accountHashCode)
+            updateCardAccountHashcodeUseCase.saveInput(newAccountHashCode, oldAccountHashCode)
             updateCardAccountHashcodeUseCase.execute()
         }
     }

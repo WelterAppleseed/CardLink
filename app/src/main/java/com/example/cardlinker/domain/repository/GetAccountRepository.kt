@@ -4,5 +4,5 @@ import com.example.cardlinker.domain.models.Account
 import kotlinx.coroutines.flow.Flow
 
 interface GetAccountRepository {
-    fun getAccount(encodedPassword: String): Flow<Account>
+    fun getAccount(email: String): Flow<Account>
 }

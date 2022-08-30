@@ -43,4 +43,14 @@
     <string name="cards_management">Cards Management</string>
     <string name="your_cards">Your Cards</string>
     <string name="there_is_no_cards_yet">There is no cards yet</string>
+    <string name="enter_old_p">Enter the old password</string>
+    <string name="password_cr_new">To then create a new one</string>
+    <string name="continue_b">Continue</string>
+    <string name="current_password">Current Password</string>
+    <string name="come_up">Come up with a new password</string>
+    <string name="at_least">At least 6 characters</string>
+    <string name="new_p">New password</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="need_another">Need another account? Register</string>
+    <string name="few_symb">Too few symbols</string>
 </resources>

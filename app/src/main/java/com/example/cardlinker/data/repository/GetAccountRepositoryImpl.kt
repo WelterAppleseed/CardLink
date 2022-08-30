@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class GetAccountRepositoryImpl @Inject constructor(private val accountDao: AccountDao): GetAccountRepository {
 
-    override fun getAccount(encodedPassword: String): Flow<Account> {
-        return accountDao.getAccount(encodedPassword)
+    override fun getAccount(email: String): Flow<Account> {
+        return accountDao.getAccount(email)
     }
 
 }

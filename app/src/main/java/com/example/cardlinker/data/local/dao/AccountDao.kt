@@ -9,14 +9,18 @@ import kotlinx.coroutines.flow.Flow
 interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun setAccount(account: Account)
-    @Query("UPDATE account SET nickname =:newNick AND email =:newEmail AND encodedPassword =:newEncodedPassword WHERE encodedPassword=:oldEncodedPassword")
-    suspend fun updateAccount(newNick: String, newEmail: String, newEncodedPassword: String, oldEncodedPassword: String)
+    @Query("UPDATE account SET encodedPassword =:newEncodedPassword WHERE email=:email")
+    suspend fun updateAccountPassword(email: String, newEncodedPassword: String)
+    @Query("UPDATE account SET nickname=:nickname, email=:email  WHERE id=:id")
+    suspend fun updateAccountData(id: Long, nickname: String, email: String)
     @Query("SELECT * FROM account WHERE encodedPassword =:encodedPassword AND (nickname=:nickOrEmail OR email=:nickOrEmail)")
     fun loginAccount(nickOrEmail: String,encodedPassword: String): Flow<Account>
-    @Query("SELECT * FROM account WHERE encodedPassword=:encodedPassword")
-    fun getAccount(encodedPassword: String): Flow<Account>
+    @Query("SELECT * FROM account WHERE email=:email")
+    fun getAccount(email: String): Flow<Account>
     @Query("SELECT * FROM account")
     fun getAll(): Flow<List<Account>>
+    @Query("SELECT EXISTS(SELECT * FROM account WHERE email=:email)")
+    fun isAccountExisted(email: String): Flow<Boolean>
     @Query("DELETE FROM account WHERE id=:id")
-    fun deleteAccount(id: Int)
+    fun deleteAccount(id: Long)
 }

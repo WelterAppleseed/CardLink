@@ -1,12 +1,13 @@
 package com.example.cardlinker.presentation.vm
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.cardlinker.domain.models.Account
 import com.example.cardlinker.domain.usecases.*
 import com.example.cardlinker.presentation.base.BaseViewModel
+import com.example.cardlinker.util.concatPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,51 +16,99 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(
     private val insertAccountUseCase: InsertAccountUseCase,
     private val getAccountUseCase: GetAccountUseCase,
-    private val getCurrentEncodedPasswordUseCase: GetCurrentEncodedPasswordUseCase,
-    private val insertCurrentEncodedPasswordUseCase: InsertCurrentEncodedPasswordUseCase,
-    private val updateAccountDataUseCase: UpdateAccountDataUseCase,
+    private val getCurrentEmailUseCase: GetCurrentEmailUseCase,
+    private val insertCurrentEmailUseCase: InsertCurrentEmailUseCase,
+    private val updateAccountPasswordUseCase: UpdateAccountPasswordUseCase,
     private val getAllAccountsUseCase: GetAllAccountsUseCase,
-    private val loginAttemptUseCase: AccountLoginAttemptUseCase
+    private val loginAttemptUseCase: AccountLoginAttemptUseCase,
+    private val isAccountExistUseCase: CheckIsAccountExistUseCase,
+    private val updateAccountDataUseCase: UpdateAccountDataUseCase
 ) : BaseViewModel() {
-    private val encodedPasswordLiveData = MutableLiveData("")
+    private val currentEmailLiveData = MutableLiveData("")
     private val accountLiveData = MutableLiveData<Account?>(null)
-    private val isAccountExist = MutableLiveData<Boolean?>(null)
+    private val isAccountExist = MutableLiveData<Boolean>(null)
+    private val isAnyAccountExist = MutableLiveData<Boolean>(false)
+    private val isAccountAlreadyExist = MutableLiveData<Boolean?>(null)
+
     init {
-        encodedPasswordLiveData.value = getCurrentEncodedPasswordUseCase.execute()
+        currentEmailLiveData.value = getCurrentEmailUseCase.execute()
         initAccount()
-        checkAllAccounts()
+        checkAllAccounts("init")
+        //TODO удалить чекАлл повсюду, просто для удобства пока-что
     }
-    private fun checkAllAccounts() {
+
+    private fun checkAllAccounts(string: String) {
         viewModelScope.launch {
             getAllAccountsUseCase.execute()
                 .distinctUntilChanged()
                 .collect {
-                    println(it)
+                    for (i in it ) {
+                        if (i.email == currentEmailLiveData.value) {
+                            println("!")
+                            accountLiveData.value = i
+                        }
+                    }
+                    isAnyAccountExist.value = (it.isNotEmpty())
                 }
         }
     }
 
-    fun setPassword(encodedPassword: String) {
+    fun initAccountAlreadyExist(email: String) {
         viewModelScope.launch {
-            insertCurrentEncodedPasswordUseCase.saveInput(encodedPassword)
-            insertCurrentEncodedPasswordUseCase.execute()
-            encodedPasswordLiveData.value = encodedPassword
+            isAccountExistUseCase.saveInput(email)
+            isAccountExistUseCase.execute()
+                .distinctUntilChanged()
+                .collect {
+                    isAccountAlreadyExist.value = it
+                    clearAlreadyExistState()
+                }
         }
     }
-    fun getPassword() = encodedPasswordLiveData
+    private fun clearAlreadyExistState() {
+        isAccountAlreadyExist.value = null
+    }
+    fun isAccountAlreadyExist() = isAccountAlreadyExist
+
+    fun isAnyAccountExist() = isAnyAccountExist
+
+    fun updateAccountPassword(account: Account, newEncodedPassword: String) {
+        viewModelScope.launch {
+            updateAccountPasswordUseCase.saveInput(account to newEncodedPassword)
+            updateAccountPasswordUseCase.execute()
+            accountLiveData.value = account.copy(encodedPassword = newEncodedPassword)
+            currentEmailLiveData.value = account.email
+            Log.i("AccountViewModel", "Updating password: Account: $account, Value: ${accountLiveData.value}, Email: ${currentEmailLiveData.value}")
+        }
+    }
+    fun updateAccountData(account: Account) {
+        viewModelScope.launch {
+            updateAccountDataUseCase.saveInput(account)
+            updateAccountDataUseCase.execute()
+            accountLiveData.value = account
+            Log.i("AccountViewModel", "Updating accountLivedata value: Account: $account, Value: ${accountLiveData.value}")
+        }
+    }
+    fun setCurrentEmail(email: String) {
+        viewModelScope.launch {
+            insertCurrentEmailUseCase.saveInput(email)
+            insertCurrentEmailUseCase.execute()
+            currentEmailLiveData.value = email
+        }
+    }
     fun setAccount(account: Account) {
         viewModelScope.launch {
             insertAccountUseCase.saveInput(account)
             insertAccountUseCase.execute()
             accountLiveData.value = account
-            checkAllAccounts()
+            Log.i("AccountViewModel", "Setting to accountLivedata value: Account: $account, Value: ${accountLiveData.value}")
         }
     }
+
     fun logout() {
-        println("qwerqwerqwergdfgsdgdfgfd")
         accountLiveData.value = null
-        encodedPasswordLiveData.value = null
+        currentEmailLiveData.value = null
     }
+
     fun attemptToLogin(nickname: String, encodedPassword: String) {
         viewModelScope.launch {
             loginAttemptUseCase.saveInput(nickname, encodedPassword)
@@ -71,20 +120,21 @@ class AccountViewModel @Inject constructor(
                 }
         }
     }
+
     fun isAccountExist() = isAccountExist
-    private fun initAccount() {
+
+    fun initAccount() {
         viewModelScope.launch {
-            val str = if (encodedPasswordLiveData.value != null && encodedPasswordLiveData.value!!.length > 4) encodedPasswordLiveData.value?.substring(0,
-                encodedPasswordLiveData.value?.length?.minus(4) ?: 0
-            ) else ""
-                getAccountUseCase.saveInput(str?: "")
+            val str = currentEmailLiveData.value?: ""
+            getAccountUseCase.saveInput(str)
             getAccountUseCase.execute()
                 .distinctUntilChanged()
                 .collect {
                     accountLiveData.value = it
-                    checkAllAccounts()
+                    Log.i("AccountViewModel", "Initializing accountLiveData: Account: $it, Value: ${accountLiveData.value}, Email is: $str")
                 }
         }
     }
+
     fun getAccount() = accountLiveData
 }

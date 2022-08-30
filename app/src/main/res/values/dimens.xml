@@ -24,6 +24,7 @@
     <dimen name="standp_text_size_26sp">26sp</dimen>
     <dimen name="standp_text_size_28sp">28sp</dimen>
 
+    <dimen name="password_background_padding">2dp</dimen>
     <dimen name="code_container_height">110dp</dimen>
     <dimen name="code_container_width">370dp</dimen>
     <dimen name="recycler_card_height">120dp</dimen>

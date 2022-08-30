@@ -6,8 +6,8 @@ import com.example.cardlinker.domain.repository.UpdateAccountDataRepository
 import javax.inject.Inject
 
 class UpdateAccountDataRepositoryImpl @Inject constructor(private val accountDao: AccountDao): UpdateAccountDataRepository {
-    override suspend fun updateData(data: Pair<Account, String>) {
-        accountDao.updateAccount(data.first.nickname, data.first.email, data.first.encodedPassword, data.second)
+    override suspend fun updateData(account: Account) {
+        accountDao.updateAccountData(account.id, account.nickname, account.email)
     }
 
 }

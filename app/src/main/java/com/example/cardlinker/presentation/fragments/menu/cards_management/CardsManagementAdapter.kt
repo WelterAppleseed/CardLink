@@ -27,7 +27,7 @@ class CardsManagementAdapter(
                             null
                         )
                         stylishGroup.visibility = View.VISIBLE
-                            smallCardTitleIcon.text = card.name?.first()?.uppercase()
+                        if (card.name?.isEmpty() == false) smallCardTitleIcon.text = card.name.first().uppercase()
                     } else {
                         background = ResourcesCompat.getDrawable(
                             resources,
@@ -43,6 +43,7 @@ class CardsManagementAdapter(
                     nestedCards.remove(card)
                     notifyItemRemoved(position)
                 }
+                if (nestedCards.indexOf(card) == nestedCards.size-1) smallDivider.visibility = View.GONE
             }
         }
     }

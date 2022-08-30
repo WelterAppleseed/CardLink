@@ -5,8 +5,8 @@ import com.example.cardlinker.domain.repository.UpdateCardAccountHashcodeReposit
 import javax.inject.Inject
 
 class UpdateCardAccountHashcodeRepositoryImpl @Inject constructor(private val cardDao: CardDao): UpdateCardAccountHashcodeRepository {
-    override suspend fun updateWithAccountHashcode(accountHashCode: Int) {
-        cardDao.updateAccountHashcodeReference(accountHashCode)
+    override suspend fun updateWithAccountHashcode(newAccountHashCode: Int, oldAccountHashCode: Int) {
+        cardDao.updateAccountHashcodeReference(oldAccountHashCode, newAccountHashCode)
     }
 
 }

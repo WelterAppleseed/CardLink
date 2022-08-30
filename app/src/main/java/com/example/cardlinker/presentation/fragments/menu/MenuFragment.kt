@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cardlinker.databinding.FragmentMenuBinding
 import com.example.cardlinker.presentation.base.BaseFragment
+import com.example.cardlinker.presentation.vm.AccountViewModel
 import com.example.cardlinker.presentation.vm.NavigationViewModel
 import com.example.cardlinker.util.enums.CardMenuItem
 
@@ -25,6 +26,7 @@ class MenuFragment: BaseFragment<FragmentMenuBinding>(FragmentMenuBinding::infla
         when (cardMenuItem) {
             CardMenuItem.PROFILE -> navigationViewModel.goToProfileFragment()
             CardMenuItem.CARDS_MANAGEMENT -> navigationViewModel.goToCardsManagementFragment()
+            CardMenuItem.SETTINGS -> navigationViewModel.goToSettingsFragment()
         }
     }
 }

@@ -6,9 +6,11 @@ import com.example.cardlinker.domain.usecases.base.BaseSuspendVoidUseCase
 import javax.inject.Inject
 
 class UpdateAccountDataUseCase @Inject constructor(private val updateAccountDataRepository: UpdateAccountDataRepository): BaseSuspendVoidUseCase {
-    private var data: Pair<Account, String>? = null
-    fun saveInput(data: Pair<Account, String>) = run { this.data = data}
+    private var account: Account? = null
+
+    fun saveInput(account: Account) = run { this.account = account }
     override suspend fun execute() {
-        updateAccountDataRepository.updateData(data!!)
+        updateAccountDataRepository.updateData(account!!)
     }
+
 }

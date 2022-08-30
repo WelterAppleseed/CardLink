@@ -23,6 +23,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     private val navigationViewModel: NavigationViewModel by viewModels()
     private val userAppearanceViewModel: UserAppearanceViewModel by viewModels()
+    private val accountViewModel: AccountViewModel by viewModels()
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
     private val navigator = AppNavigator(this, R.id.main_fragment_container)

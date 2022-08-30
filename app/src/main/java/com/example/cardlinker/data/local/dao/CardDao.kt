@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.Flow
 interface CardDao {
     @Query("SELECT * from card")
     fun getCards(): Flow<List<Card>>
-    @Query("UPDATE card SET accountHashCode=:accountHashCode WHERE accountHashCode=0")
-    suspend fun updateAccountHashcodeReference(accountHashCode: Int)
+    @Query("UPDATE card SET accountHashCode=:newAccountHashCode WHERE accountHashCode=:oldAccountHashCode")
+    suspend fun updateAccountHashcodeReference(oldAccountHashCode: Int, newAccountHashCode: Int)
     @Insert
     suspend fun insertCard(card: Card)
     @Query("DELETE FROM card WHERE number=:number")

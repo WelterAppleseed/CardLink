@@ -22,7 +22,7 @@
     <color name="search_field_color_bright">#2b1e29</color>
     <color name="dialog_background_color">#302232</color>
     <color name="nav_bar_stroke_color">#3F2D42</color>
-    <color name="toolbar_background_color">#4D3750</color>
+    <color name="toolbar_background_color">#423045</color>
     <color name="stroke_color_bright">#74467A</color>
     <color name="container_background_color">#412E43</color>
     <color name="bright_icon_color">#f3e8f2</color>
@@ -32,7 +32,9 @@
     <color name="text_color_bright">#c3bcc3</color>
     <color name="selected_circle_color">#99306c</color>
     <color name="primaryRedColor">#f65751</color>
+    <color name="primaryRedColorTransparency">#65F65751</color>
     <color name="primaryRedColorBright">#FFC4C2</color>
     <color name="unselected_circle_color">#6a2861</color>
     <color name="theme_background_color">#241722</color>
+    <color name="divider_color">#563F60</color>
 </resources>

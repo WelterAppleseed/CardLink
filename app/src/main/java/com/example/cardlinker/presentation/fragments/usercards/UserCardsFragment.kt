@@ -20,6 +20,7 @@ import com.example.cardlinker.presentation.base.text_watchers.OnCardClickListene
 import com.example.cardlinker.presentation.fragments.usercards.recommendations.RecommendationAdapter
 import com.example.cardlinker.presentation.vm.*
 import com.example.cardlinker.util.objects.BalloonConstants
+import com.example.cardlinker.util.withAnimatedScrolling
 import com.skydoves.balloon.ArrowOrientation
 import dagger.hilt.android.AndroidEntryPoint
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
@@ -45,20 +46,18 @@ class UserCardsFragment :
         userAppearanceViewModel.getIsLoggedIn().observe(viewLifecycleOwner) { isLoggedIn ->
             if (isLoggedIn) {
                 accountViewModel.getAccount().observe(viewLifecycleOwner) { account ->
-                    println(account)
+                    println("$account value is")
                     if (account != null) {
                         cardsViewModel.initLinkedCards(account.hashCode())
+                        //TODO
                         println(account.hashCode())
                         cardsViewModel.getLinkedCards().observe(viewLifecycleOwner) { cards ->
-                            println("$cards asaassa")
                             cardRecycler(cards)
                         }
                     }
                 }
             } else {
-                println("2")
                 cardsViewModel.getNotLinkedCards().observe(viewLifecycleOwner) {
-                    println("$it asaasdfdfgfsa")
                     cardRecycler(it)
                 }
             }
@@ -70,12 +69,10 @@ class UserCardsFragment :
                 noCardLayout.root.visibility = View.GONE
                 myCardRecycler.adapter = UserCardsAdapter(cards, this@UserCardsFragment)
                 myCardRecycler.layoutManager = GridLayoutManager(context, 2)
-                if (cards.size > 6) OverScrollDecoratorHelper.setUpOverScroll(
-                    myCardRecycler,
-                    OverScrollDecoratorHelper.ORIENTATION_VERTICAL
-                )
+                if (cards.size > 6) myCardRecycler.withAnimatedScrolling()
             } else {
                 noCardLayout.root.visibility = View.VISIBLE
+
             }
             initToolbar()
         }
@@ -157,6 +154,7 @@ class UserCardsFragment :
                         R.id.action_cancel -> {
                             searchView.removeFocus()
                             hideKeyboard()
+                            //TODO
                         }
                     }
                     return@setOnMenuItemClickListener true

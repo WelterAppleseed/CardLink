@@ -48,7 +48,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideUpdateAccountDataRepository(accountDao: AccountDao): UpdateAccountDataRepository = UpdateAccountDataRepositoryImpl(accountDao)
+    fun provideUpdateAccountPasswordRepository(accountDao: AccountDao): UpdateAccountPasswordRepository = UpdateAccountPasswordRepositoryImpl(accountDao)
 
     @Provides
     @Singleton
@@ -58,6 +58,13 @@ class AppModule {
     @Singleton
     fun provideAccountLoginAttemptRepository(accountDao: AccountDao): AccountLoginAttemptRepository = AccountLoginAttemptRepositoryImpl(accountDao)
 
+    @Provides
+    @Singleton
+    fun provideCheckIsAccountExistRepository(accountDao: AccountDao): CheckIsAccountExistRepository = CheckIsAccountExistRepositoryImpl(accountDao)
+
+    @Provides
+    @Singleton
+    fun provideUpdateAccountDataRepository(accountDao: AccountDao): UpdateAccountDataRepository = UpdateAccountDataRepositoryImpl(accountDao)
 
     @Provides
     @Singleton
@@ -78,11 +85,11 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideGetCurrentEncodedPasswordRepository(sharedPreferences: SharedPreferences): GetCurrentEncodedPasswordRepository = GetCurrentEncodedPasswordRepositoryImpl(sharedPreferences)
+    fun provideGetCurrentEmailRepository(sharedPreferences: SharedPreferences): GetCurrentEmailRepository = GetCurrentEmailRepositoryImpl(sharedPreferences)
 
     @Provides
     @Singleton
-    fun provideInsertCurrentEncodedPasswordRepository(sharedPreferences: SharedPreferences): InsertCurrentEncodedPasswordRepository = InsertCurrentEncodedPasswordRepositoryImpl(sharedPreferences)
+    fun provideInsertCurrentEmailRepository(sharedPreferences: SharedPreferences): InsertCurrentEmailRepository = InsertCurrentEmailRepositoryImpl(sharedPreferences)
 
     @Provides
     fun provideChannelDao(cardLinkDatabase: CardLinkDatabase): CardDao {
