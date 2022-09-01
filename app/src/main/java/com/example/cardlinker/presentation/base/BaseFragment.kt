@@ -26,6 +26,7 @@ open class BaseFragment<V : ViewBinding>(
 
     protected open var bottomNavigationViewVisibility = View.VISIBLE
     protected open var windowSoftInput = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+    protected open var topBarColor = R.color.toolbar_background_color
     protected val binding: V
         get() = requireNotNull(contentBinding) {
             "Binding is only valid between onCreateView and onDestroyView"
@@ -35,6 +36,8 @@ open class BaseFragment<V : ViewBinding>(
         super.onStart()
         bottomNavigationBarVisibility(bottomNavigationViewVisibility)
         liftViewsWithKeyboard(requireActivity().window)
+        context?.let { it1 -> ContextCompat.getColor(it1, topBarColor) }
+            ?.let { it2 -> drawStatusBar(it2, false) }
     }
 
     override fun onCreateView(

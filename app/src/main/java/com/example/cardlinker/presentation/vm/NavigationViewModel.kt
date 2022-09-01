@@ -31,4 +31,8 @@ class NavigationViewModel @Inject constructor(
     fun goToOldPasswordChangeFragment() = router.newRootChain(Screens.oldPasswordChangeFragment())
 
     fun goToNewPasswordChangeFragment() = router.newRootChain(Screens.newPasswordChangeFragment())
+
+    fun goToPatternLockFragment() = router.newRootChain(Screens.patternLockFragment())
+
+    fun goToEnterPatternFragment() = router.newRootChain(Screens.enterPatternFragment())
 }

@@ -26,6 +26,12 @@
     <string name="more">More</string>
     <string name="card_support">Card Support</string>
     <string name="profile">Profile</string>
+    <string name="inp_old_pattern">Enter the old pattern</string>
+    <string name="inp_old_pattern_small">To change the pattern next</string>
+    <string name="inp_old_pattern_new">Enter a new pattern</string>
+    <string name="inp_old_pattern_new_small">Which you will enter when\nyou log in to the application</string>
+    <string name="inp_new_pattern_new">Enter it again</string>
+    <string name="inp_new_pattern_new_small">To confirm the pattern</string>
     <string name="supported_cards">Supported Cards</string>
     <string name="nick_or_email">Nickname or E-mail…</string>
     <string name="already_have_account_quest">Already have an account? Login</string>
@@ -41,6 +47,8 @@
     <string name="save">Save</string>
     <string name="change_password">Change Password</string>
     <string name="cards_management">Cards Management</string>
+    <string name="patterns_are_not_equal">Patterns are not equal,\ntry again</string>
+    <string name="pattern_is_wrong">Pattern is wrong,\ntry again</string>
     <string name="your_cards">Your Cards</string>
     <string name="there_is_no_cards_yet">There is no cards yet</string>
     <string name="enter_old_p">Enter the old password</string>
@@ -53,4 +61,8 @@
     <string name="wrong_password">Wrong password</string>
     <string name="need_another">Need another account? Register</string>
     <string name="few_symb">Too few symbols</string>
+    <string name="lock_protection">Lock Protection</string>
+    <string name="pattern_login_small">To log in to the application</string>
+    <string name="pattern_login">Set a pattern</string>
+    <string name="input_pattern">Input pattern</string>
 </resources>

@@ -62,5 +62,6 @@ class CameraFragment: BaseFragment<FragmentCameraBinding>(FragmentCameraBinding:
     }
 
     override var bottomNavigationViewVisibility: Int = View.GONE
+    override var topBarColor: Int = R.color.theme_background_color
 
 }

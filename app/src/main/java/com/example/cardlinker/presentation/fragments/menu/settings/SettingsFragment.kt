@@ -38,7 +38,7 @@ class SettingsFragment: BaseFragment<FragmentSettingsBinding>(FragmentSettingsBi
     override fun onSettingClicked(settingsItem: SettingsItem) {
         when (settingsItem) {
             SettingsItem.PASSWORD -> navigationViewModel.goToOldPasswordChangeFragment()
-            else -> {}
+            SettingsItem.LOGIN_PROTECTION -> navigationViewModel.goToPatternLockFragment()
         }
     }
 }

@@ -6,6 +6,7 @@ object Constants {
     const val FIRST_TIME_USED = "first_time_used"
     const val SUPPORT_CARD_SIZE = 5
     const val CURRENT_EMAIL = "email"
+    const val PATTERN = "pattern"
     const val ACCOUNT_IS_NULL = 0
     const val ALPHA_FULL_VISIBILITY = 1F
     const val ALPHA_HALF_VISIBILITY = 0.5F

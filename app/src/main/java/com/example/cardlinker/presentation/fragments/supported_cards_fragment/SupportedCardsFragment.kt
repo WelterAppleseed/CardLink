@@ -33,4 +33,6 @@ class SupportedCardsFragment: BaseFragment<FragmentSupportedCardsBinding>(Fragme
             }
         }
     }
+
+    override var bottomNavigationViewVisibility: Int = View.GONE
 }

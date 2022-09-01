@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.cardlinker.R
 import com.example.cardlinker.presentation.vm.AccountViewModel
 import com.example.cardlinker.presentation.vm.NavigationViewModel
+import com.example.cardlinker.presentation.vm.PatternViewModel
 import com.example.cardlinker.presentation.vm.UserAppearanceViewModel
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private val navigationViewModel: NavigationViewModel by viewModels()
     private val userAppearanceViewModel: UserAppearanceViewModel by viewModels()
     private val accountViewModel: AccountViewModel by viewModels()
+    private val patternViewModel: PatternViewModel by viewModels()
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
     private val navigator = AppNavigator(this, R.id.main_fragment_container)
@@ -35,7 +37,13 @@ class MainActivity : AppCompatActivity() {
             if (firstTime) {
                 navigationViewModel.goToEnterBannersFragment()
             } else {
-                navigationViewModel.goToUserCardsFragment()
+                patternViewModel.getPattern().observe(this) { pattern ->
+                    if (pattern.isNotEmpty()) {
+                        navigationViewModel.goToEnterPatternFragment()
+                    } else {
+                        navigationViewModel.goToUserCardsFragment()
+                    }
+                }
             }
         }
     }

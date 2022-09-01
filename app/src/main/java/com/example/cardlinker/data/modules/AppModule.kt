@@ -113,6 +113,14 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideGetPatternRepository(sharedPreferences: SharedPreferences): GetPatternRepository = GetPatternRepositoryImpl(sharedPreferences)
+
+    @Provides
+    @Singleton
+    fun provideInsertPatternRepository(sharedPreferences: SharedPreferences): InsertPatternRepository = InsertPatternRepositoryImpl(sharedPreferences)
+
+    @Provides
+    @Singleton
     fun provideFirstTimeOnFragmentRepository(sharedPreferences: SharedPreferences): FirstTimeOnFragmentManager = FirstTimeOnFragmenManagerImpl(sharedPreferences)
 
 

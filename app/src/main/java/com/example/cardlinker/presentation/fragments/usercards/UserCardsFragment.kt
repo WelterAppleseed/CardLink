@@ -46,11 +46,8 @@ class UserCardsFragment :
         userAppearanceViewModel.getIsLoggedIn().observe(viewLifecycleOwner) { isLoggedIn ->
             if (isLoggedIn) {
                 accountViewModel.getAccount().observe(viewLifecycleOwner) { account ->
-                    println("$account value is")
                     if (account != null) {
                         cardsViewModel.initLinkedCards(account.hashCode())
-                        //TODO
-                        println(account.hashCode())
                         cardsViewModel.getLinkedCards().observe(viewLifecycleOwner) { cards ->
                             cardRecycler(cards)
                         }

@@ -175,7 +175,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             accountViewModel.initAccountAlreadyExist(profileDataLayout.mailEt.text.toString())
             accountViewModel.isAccountAlreadyExist().observe(viewLifecycleOwner) { isExist ->
                 if (isExist != null) {
-                    if (isExist == false) {
+                    if (isExist == false || account.email == profileDataLayout.mailEt.text.toString()) {
                         if (profileDataLayout.doesHaveAccountTv.visibility == View.GONE) {
                             val updatedAccount = account.copy(
                                 nickname = profileDataLayout.nicknameEt.text.toString(),
@@ -199,19 +199,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         binding.apply {
             userCardsViewModel.getNotLinkedCardCodes()
                 .observe(viewLifecycleOwner) { codes ->
-                    val encodedPassword =
-                        account?.encodedPassword
-                            ?: AESCrypt.encrypt(
-                                profileDataLayout.passwordEt.text.toString()
-                            )
-                    accountViewModel.setCurrentEmail(account?.email ?: "")
+                    val encodedPassword = AESCrypt.encrypt(profileDataLayout.passwordEt.text.toString())
                     val registeredAccount = Account(
-                        id = account?.id ?: (0),
                         nickname = profileDataLayout.nicknameEt.text.toString(),
                         email = profileDataLayout.mailEt.text.toString(),
                         encodedPassword = encodedPassword,
-                        cardCodes = account?.cardCodes ?: codes
+                        cardCodes = codes
                     )
+                    accountViewModel.setCurrentEmail(profileDataLayout.mailEt.text.toString())
                     accountViewModel.setAccount(registeredAccount)
                     userCardsViewModel.updateCardsWithAccountHashCode(
                         registeredAccount.hashCode(),
