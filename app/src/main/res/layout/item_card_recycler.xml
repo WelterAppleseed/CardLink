@@ -10,5 +10,5 @@
         android:scaleType="fitXY"
         android:layout_margin="@dimen/stand_margin_5dp"
         app:shapeAppearanceOverlay="@style/SmallRoundedCorners"
-        android:src="@drawable/okei"/>
+        android:background="@drawable/okei"/>
 </FrameLayout>

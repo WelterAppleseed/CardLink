@@ -3,6 +3,7 @@ package com.example.cardlinker.data.modules
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.example.cardlinker.data.local.dao.AccountDao
 import com.example.cardlinker.data.local.dao.CardDao
 import com.example.cardlinker.data.local.dao.RecommendationDao
 import com.example.cardlinker.data.local.db.CardLinkDatabase
@@ -42,12 +43,65 @@ class AppModule {
     fun provideGetCardRepository(cardDao: CardDao): GetCardRepository = GetCardRepositoryImpl(cardDao)
 
     @Provides
+    @Singleton
+    fun provideGetAccountRepository(accountDao: AccountDao): GetAccountRepository = GetAccountRepositoryImpl(accountDao)
+
+    @Provides
+    @Singleton
+    fun provideUpdateAccountPasswordRepository(accountDao: AccountDao): UpdateAccountPasswordRepository = UpdateAccountPasswordRepositoryImpl(accountDao)
+
+    @Provides
+    @Singleton
+    fun provideGetAllAccountsRepository(accountDao: AccountDao): GetAllAccountsRepository = GetAllAccountsRepositoryImpl(accountDao)
+
+    @Provides
+    @Singleton
+    fun provideAccountLoginAttemptRepository(accountDao: AccountDao): AccountLoginAttemptRepository = AccountLoginAttemptRepositoryImpl(accountDao)
+
+    @Provides
+    @Singleton
+    fun provideCheckIsAccountExistRepository(accountDao: AccountDao): CheckIsAccountExistRepository = CheckIsAccountExistRepositoryImpl(accountDao)
+
+    @Provides
+    @Singleton
+    fun provideUpdateAccountDataRepository(accountDao: AccountDao): UpdateAccountDataRepository = UpdateAccountDataRepositoryImpl(accountDao)
+
+    @Provides
+    @Singleton
+    fun provideInsertAccountRepository(accountDao: AccountDao): InsertAccountRepository = InsertAccountRepositoryImpl(accountDao)
+
+    @Provides
+    @Singleton
+    fun provideGetNotLinkedCardsRepository(cardDao: CardDao): GetNotLinkedCardsRepository = GetNotLinkedCardsRepositoryImpl(cardDao)
+
+    @Provides
+    @Singleton
+    fun provideGetLinkedCardRepository(cardDao: CardDao): GetLinkedCardsRepository = GetLinkedCardsRepositoryImpl(cardDao)
+
+    @Provides
+    @Singleton
+    fun provideUpdateCardAccountHashcodeRepository(cardDao: CardDao): UpdateCardAccountHashcodeRepository = UpdateCardAccountHashcodeRepositoryImpl(cardDao)
+
+
+    @Provides
+    @Singleton
+    fun provideGetCurrentEmailRepository(sharedPreferences: SharedPreferences): GetCurrentEmailRepository = GetCurrentEmailRepositoryImpl(sharedPreferences)
+
+    @Provides
+    @Singleton
+    fun provideInsertCurrentEmailRepository(sharedPreferences: SharedPreferences): InsertCurrentEmailRepository = InsertCurrentEmailRepositoryImpl(sharedPreferences)
+
+    @Provides
     fun provideChannelDao(cardLinkDatabase: CardLinkDatabase): CardDao {
         return cardLinkDatabase.cardDao()
     }
     @Provides
     fun provideRecommendationDao(cardLinkDatabase: CardLinkDatabase): RecommendationDao {
         return cardLinkDatabase.recommendationDao()
+    }
+    @Provides
+    fun provideAccountDao(cardLinkDatabase: CardLinkDatabase): AccountDao {
+        return cardLinkDatabase.accountDao()
     }
     @Provides
     @Singleton
@@ -57,8 +111,24 @@ class AppModule {
     @Singleton
     fun provideAddRecommendationRepository(addRecommendationDao: RecommendationDao): AddRecommendationRepository = AddRecommendationRepositoryImpl(addRecommendationDao)
 
+    @Provides
+    @Singleton
+    fun provideGetPatternRepository(sharedPreferences: SharedPreferences): GetPatternRepository = GetPatternRepositoryImpl(sharedPreferences)
 
     @Provides
     @Singleton
-    fun provideUserLoggedInManager(appPreferences: SharedPreferences): FirstTimeUsedManager = FirstTimeUsedImpl(appPreferences)
+    fun provideInsertPatternRepository(sharedPreferences: SharedPreferences): InsertPatternRepository = InsertPatternRepositoryImpl(sharedPreferences)
+
+    @Provides
+    @Singleton
+    fun provideFirstTimeOnFragmentRepository(sharedPreferences: SharedPreferences): FirstTimeOnFragmentManager = FirstTimeOnFragmenManagerImpl(sharedPreferences)
+
+
+    @Provides
+    @Singleton
+    fun provideFirstTimeUsedManager(appPreferences: SharedPreferences): FirstTimeUsedManager = FirstTimeUsedImpl(appPreferences)
+
+    @Provides
+    @Singleton
+    fun provideCheckIsLoggedInManager(appPreferences: SharedPreferences): CheckIsLoggedInManager = CheckIsLoggedInManagerImpl(appPreferences)
     }

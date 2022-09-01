@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:id="@+id/wallet_layout"
     android:layout_height="match_parent"
     android:background="@color/theme_background_color">
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/search_add_bar"
         android:layout_width="match_parent"
@@ -17,18 +17,18 @@
         <com.example.cardlinker.presentation.base.custom.SearchView
             android:id="@+id/search_view"
             android:animateLayoutChanges="true"
-            android:layout_width="@dimen/search_field_full_width"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/cancel_tv"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:visibility="gone"
-            android:layout_marginStart="@dimen/stand_margin_30dp"
-            android:textColor="@color/text_color_bright"
-            android:text="@string/cancel"/>
     </androidx.appcompat.widget.Toolbar>
+    <FrameLayout
+        android:id="@+id/placeholder_l"
+        android:layout_width="@dimen/stand_margin_35dp"
+        android:layout_height="@dimen/stand_margin_35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/stand_margin_10dp"
+        android:layout_marginEnd="@dimen/stand_margin_5dp"/>
+
     <include layout="@layout/horizontal_recommendation_layout"
         android:id="@+id/horizontal_recommendation_layout"
         android:layout_width="match_parent"
@@ -39,6 +39,7 @@
         android:id="@+id/recycler_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontal_recommendation_layout"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +58,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_add_bar" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_card_recycler"
             android:layout_width="match_parent"
@@ -72,5 +72,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_card_tv" />
     </LinearLayout>
+
+    <include layout="@layout/no_card_layout"
+        android:id="@+id/no_card_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/recycler_layout"
+        app:layout_constraintBottom_toBottomOf="@+id/recycler_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,7 +32,7 @@
 
             <ImageView
                 android:id="@+id/code_iv"
-                android:layout_width="@dimen/code_width"
+                android:layout_width="@dimen/barcode_width"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/stand_margin_10dp"
                 android:layout_gravity="center" />

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/theme_background_color"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/pattern_logo_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/text_logo_height"
+        android:layout_marginTop="@dimen/stand_margin_40dp"
+        android:src="@drawable/cardlink_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/input_pattern_tv"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/input_pattern_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_pattern"
+        android:textSize="@dimen/standp_text_size_28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/enter_pattern"/>
+    <me.zhanghai.android.patternlock.PatternView
+        android:id="@+id/enter_pattern"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:pl_regularColor="@color/white"
+        app:pl_successColor="@color/success_color"
+        android:layout_marginBottom="@dimen/stand_margin_40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:circularflow_radiusInDP="30"
+        app:pl_errorColor="@color/primaryRedColor"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.example.cardlinker.R
+import com.example.cardlinker.presentation.base.code_creator.CodeReader
 import com.example.cardlinker.presentation.base.codeformatter.CodeFormatter
 import com.example.cardlinker.presentation.base.codeformatter.OnCodeFormattedListener
 import java.io.File
@@ -114,7 +115,7 @@ class CameraView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
                         } else {
                             uris.first to savedUri
                         }
-                        CodeFormatter(savedUri, onCodeFormattedListener).process(context)
+                        onCodeFormattedListener.onCodeFormatted(uris.first?.let { CodeReader.readImage(it, context.contentResolver) })
                     }
 
                     override fun onError(exception: ImageCaptureException) {
