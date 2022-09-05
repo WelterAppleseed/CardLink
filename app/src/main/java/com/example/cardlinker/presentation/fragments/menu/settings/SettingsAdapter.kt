@@ -19,7 +19,7 @@ class SettingsAdapter(private val onSettingItemClickedListener: OnSettingItemCli
         fun bind(settingsItem: SettingsItem) {
             binding.apply {
                 settingTv.text = settingsItem.text
-                if (!isLoggedIn && settingsItem == SettingsItem.PASSWORD) {
+                if (!isLoggedIn && ((settingsItem == SettingsItem.PASSWORD || settingsItem == SettingsItem.DELETE_ACCOUNT))) {
                     root.alpha = Constants.ALPHA_HALF_VISIBILITY
                 } else {
                     root.setOnClickListener {

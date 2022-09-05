@@ -14,10 +14,11 @@ import javax.inject.Inject
 @HiltViewModel
 class UserCardsViewModel @Inject constructor(
     private val getCardsUseCase: GetCardsReturnUseCase,
-    private val deleteCardsUseCase: DeleteCardReturnUseCase,
+    private val deleteCardUseCase: DeleteCardReturnUseCase,
     private val getNotLinkedCardsUseCase: GetNotLinkedCardsUseCase,
     private val getLinkedCardsUseCase: GetLinkedCardsUseCase,
-    private val updateCardAccountHashcodeUseCase: UpdateCardAccountHashcodeUseCase
+    private val updateCardAccountHashcodeUseCase: UpdateCardAccountHashcodeUseCase,
+    private val deleteCardsUseCase: DeleteCardsUseCase
 ) : BaseViewModel() {
     private val cardsLiveData = MutableLiveData<MutableList<Card>>(null)
     private val codeLiveData = MutableLiveData<Code?>(null)
@@ -34,7 +35,6 @@ class UserCardsViewModel @Inject constructor(
                 .distinctUntilChanged()
                 .collect {
                     cardsLiveData.value = ArrayList(it)
-                    println("$it sdghsdfsssss")
                 }
         }
 
@@ -44,6 +44,8 @@ class UserCardsViewModel @Inject constructor(
         this.codeLiveData.value = code
     }
 
+
+
     fun getCode() = codeLiveData
 
     fun saveCard(card: Card, isLinked: Boolean) {
@@ -51,7 +53,6 @@ class UserCardsViewModel @Inject constructor(
             getCardsUseCase.saveCard(card)
             cardsLiveData.value?.add(card)
             if (isLinked) linkedCards.value?.add(card) else notLinkedCards.value?.add(card)
-            println("${notLinkedCards.value} ;g;;g;g")
             codeLiveData.value = null
         }
     }
@@ -62,7 +63,6 @@ class UserCardsViewModel @Inject constructor(
                 .distinctUntilChanged()
                 .collect { list ->
                     notLinkedCards.value = ArrayList(list)
-                    println("$list sgsdfgdfsssaaqqwer")
                     val codes = mutableListOf<Code>()
                     list.forEach {
                         codes.add(it.code)
@@ -97,7 +97,13 @@ class UserCardsViewModel @Inject constructor(
             break
         }
         viewModelScope.launch {
-            deleteCardsUseCase.saveInput(cardNumber)
+            deleteCardUseCase.saveInput(cardNumber)
+            deleteCardUseCase.execute()
+        }
+    }
+    fun deleteCards(accountHashCode: Int) {
+        viewModelScope.launch {
+            deleteCardsUseCase.saveInput(accountHashCode)
             deleteCardsUseCase.execute()
         }
     }

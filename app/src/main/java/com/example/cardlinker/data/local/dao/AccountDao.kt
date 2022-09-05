@@ -21,6 +21,6 @@ interface AccountDao {
     fun getAll(): Flow<List<Account>>
     @Query("SELECT EXISTS(SELECT * FROM account WHERE email=:email)")
     fun isAccountExisted(email: String): Flow<Boolean>
-    @Query("DELETE FROM account WHERE id=:id")
-    fun deleteAccount(id: Long)
+    @Query("DELETE FROM account WHERE email=:email")
+    suspend fun deleteAccount(email: String)
 }

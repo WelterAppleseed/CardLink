@@ -62,10 +62,13 @@
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/change_password_background.xml" value="0.3065" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/change_password_focused_b.xml" value="0.3065" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/change_password_wrong_password_b.xml" value="0.1995" />
+        <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/close_dr.xml" value="0.207" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/cloth_dr.xml" value="0.3075" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/container_background.xml" value="0.3065" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/cosmetic_dr.xml" value="0.3075" />
+        <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/delete_account_background_buttons.xml" value="0.206" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/delete_dr.xml" value="0.196" />
+        <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/dialog_small_corners.xml" value="0.309" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/document_dr.xml" value="0.1015" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/email_dr.xml" value="0.3495" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/fragment_menu_recycler_background.xml" value="0.3495" />
@@ -80,6 +83,7 @@
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/settings_dr.xml" value="0.3495" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/store_dr.xml" value="0.3075" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/support_dr.xml" value="0.3495" />
+        <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/tb_background.xml" value="0.207" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/tech_dr.xml" value="0.3075" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/toolbar_background.xml" value="0.3495" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/drawable/usb_dr.xml" value="0.3075" />
@@ -87,6 +91,8 @@
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/layout/camera_layout.xml" value="0.358695652173913" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/layout/cards_management.xml" value="0.16510416666666666" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/layout/code_layout.xml" value="0.15443840579710144" />
+        <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/layout/delete_and_logout_account_dialog.xml" value="0.358695652173913" />
+        <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/layout/dialog_delete_and_logout_account.xml" value="0.25" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/layout/fragment_camera.xml" value="0.18802083333333333" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/layout/fragment_card_initializing.xml" value="0.22" />
         <entry key="..\:/Projects/PROJECTS/CDISKProjects/CardLinker/app/src/main/res/layout/fragment_cards_management.xml" value="0.25" />

@@ -8,13 +8,10 @@ import com.example.cardlinker.databinding.FragmentCameraBinding
 import com.example.cardlinker.databinding.InitializationErrorDialogBinding
 import com.example.cardlinker.domain.models.Code
 import com.example.cardlinker.presentation.base.BaseFragment
-import com.example.cardlinker.presentation.base.codeformatter.CodeFormatter
 import com.example.cardlinker.presentation.base.codeformatter.OnCodeFormattedListener
 import com.example.cardlinker.presentation.vm.NavigationViewModel
 import com.example.cardlinker.presentation.vm.UserCardsViewModel
 import com.example.cardlinker.util.disable
-import com.example.cardlinker.util.enable
-import com.google.mlkit.vision.barcode.common.Barcode
 import java.io.File
 
 class CameraFragment: BaseFragment<FragmentCameraBinding>(FragmentCameraBinding::inflate), OnCodeFormattedListener {

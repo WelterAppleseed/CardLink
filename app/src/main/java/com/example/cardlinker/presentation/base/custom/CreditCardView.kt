@@ -63,6 +63,9 @@ class CreditCardView(context: Context, attrs: AttributeSet) : ConstraintLayout(c
             textView.text = text
         }
     }
+    fun hideCardName() {
+        cardNameEt.visibility = View.INVISIBLE
+    }
     fun ifCardRecognizeError() {
         cardNameEt.visibility = View.VISIBLE
         foreground.visibility = View.VISIBLE

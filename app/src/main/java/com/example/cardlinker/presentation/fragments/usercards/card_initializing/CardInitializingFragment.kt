@@ -9,7 +9,6 @@ import com.example.cardlinker.R
 import com.example.cardlinker.databinding.FragmentCardInitializingBinding
 import com.example.cardlinker.domain.models.Card
 import com.example.cardlinker.domain.models.Code
-import com.example.cardlinker.domain.models.Style
 import com.example.cardlinker.presentation.base.BaseFragment
 import com.example.cardlinker.presentation.base.code_creator.CodeCreator
 import com.example.cardlinker.presentation.fragments.usercards.CardBackground
@@ -24,7 +23,6 @@ import com.example.cardlinker.util.objects.Constants
 import com.example.cardlinker.util.objects.Styles
 import com.google.zxing.BarcodeFormat
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
-import java.util.*
 
 class CardInitializingFragment :
     BaseFragment<FragmentCardInitializingBinding>(FragmentCardInitializingBinding::inflate),
@@ -64,6 +62,7 @@ class CardInitializingFragment :
     private fun cardInitializing(code: Code, cards: List<Card>, accountHashCode: Int) {
         binding.apply {
             for (card in cards) {
+                println("$card $cards ${code.data}")
                 if (card.code.data == code.data) {
                     changeToolbar(code, (accountHashCode != Constants.ACCOUNT_IS_NULL))
                     acceptB.visibility = View.GONE
@@ -134,10 +133,15 @@ class CardInitializingFragment :
     private fun initCardData(card: Card) {
         binding.apply {
             card.name?.let { initToolbarMenu(it) }
-            stylesRecycler.visibility = View.GONE
-            discountCardView.setForegroundVisibility(View.VISIBLE)
             card.name?.let { discountCardView.setCardName(it) }
-            card.style?.let { discountCardView.changeStyle(it) }
+            stylesRecycler.visibility = View.GONE
+            if (card.style == null) {
+                discountCardView.setSrc(card.background)
+                discountCardView.hideCardName()
+            } else {
+                discountCardView.setForegroundVisibility(View.VISIBLE)
+                discountCardView.changeStyle(card.style)
+            }
             codeLayout.apply {
                 bottomCodeTv.text = card.number?.codeWithSpaces()
                 cardNumTv.text = card.number
@@ -149,6 +153,7 @@ class CardInitializingFragment :
     private fun initCardData(code: Code) {
         binding.apply {
             val pair = CardBackground.getSrcAndNameIfExist(code.data)
+            println(pair)
             if (pair != null) {
                 stylesRecycler.visibility = View.GONE
                 discountCardView.setSrc(pair.first)

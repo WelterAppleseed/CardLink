@@ -24,7 +24,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     private val navigationViewModel: NavigationViewModel by viewModels()
     private val userAppearanceViewModel: UserAppearanceViewModel by viewModels()
-    private val accountViewModel: AccountViewModel by viewModels()
     private val patternViewModel: PatternViewModel by viewModels()
     @Inject
     lateinit var navigatorHolder: NavigatorHolder

@@ -23,7 +23,6 @@ import com.example.cardlinker.util.objects.BalloonConstants
 import com.example.cardlinker.util.withAnimatedScrolling
 import com.skydoves.balloon.ArrowOrientation
 import dagger.hilt.android.AndroidEntryPoint
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 @AndroidEntryPoint
 class UserCardsFragment :
@@ -67,6 +66,7 @@ class UserCardsFragment :
                 myCardRecycler.adapter = UserCardsAdapter(cards, this@UserCardsFragment)
                 myCardRecycler.layoutManager = GridLayoutManager(context, 2)
                 if (cards.size > 6) myCardRecycler.withAnimatedScrolling()
+                myCardRecycler.scheduleLayoutAnimation()
             } else {
                 noCardLayout.root.visibility = View.VISIBLE
 
@@ -100,6 +100,7 @@ class UserCardsFragment :
                 recommendationRecycler.adapter = RecommendationAdapter(it)
                 recommendationRecycler.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                recommendationRecycler.scheduleLayoutAnimation()
                 moreTv.setOnClickListener { navigationViewModel.goToSupportedCardsFragment() }
             }
         }

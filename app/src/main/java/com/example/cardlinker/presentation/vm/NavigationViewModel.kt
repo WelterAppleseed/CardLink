@@ -10,29 +10,29 @@ import com.github.terrakok.cicerone.Router
 class NavigationViewModel @Inject constructor(
     private val router: Router
 ): BaseViewModel() {
-    fun goToUserCardsFragment() = router.newRootChain(Screens.userCardsFragment())
+    fun goToUserCardsFragment() = router.navigateTo(Screens.userCardsFragment())
 
-    fun goToEnterBannersFragment() = router.newRootChain(Screens.enterBannersFragment())
+    fun goToEnterBannersFragment() = router.navigateTo(Screens.enterBannersFragment())
 
-    fun goToCardInitializingFragment() = router.newRootChain(Screens.cardInitializingFragment())
+    fun goToCardInitializingFragment() = router.navigateTo(Screens.cardInitializingFragment())
 
-    fun goToCameraFragment() = router.newRootChain(Screens.cameraFragment())
+    fun goToCameraFragment() = router.navigateTo(Screens.cameraFragment())
 
-    fun goToSupportedCardsFragment() = router.newRootChain(Screens.supportedCardsFragment())
+    fun goToSupportedCardsFragment() = router.navigateTo(Screens.supportedCardsFragment())
 
-    fun goToMenuFragment() = router.newRootChain(Screens.menuFragment())
+    fun goToMenuFragment() = router.navigateTo(Screens.menuFragment())
 
-    fun goToProfileFragment() = router.newRootChain(Screens.profileFragment())
+    fun goToProfileFragment() = router.navigateTo(Screens.profileFragment())
 
-    fun goToCardsManagementFragment() = router.newRootChain(Screens.cardsManagementFragment())
+    fun goToCardsManagementFragment() = router.navigateTo(Screens.cardsManagementFragment())
 
-    fun goToSettingsFragment() = router.newRootChain(Screens.settingsFragment())
+    fun goToSettingsFragment() = router.navigateTo(Screens.settingsFragment())
 
-    fun goToOldPasswordChangeFragment() = router.newRootChain(Screens.oldPasswordChangeFragment())
+    fun goToOldPasswordChangeFragment() = router.navigateTo(Screens.oldPasswordChangeFragment())
 
-    fun goToNewPasswordChangeFragment() = router.newRootChain(Screens.newPasswordChangeFragment())
+    fun goToNewPasswordChangeFragment() = router.navigateTo(Screens.newPasswordChangeFragment())
 
-    fun goToPatternLockFragment() = router.newRootChain(Screens.patternLockFragment())
+    fun goToPatternLockFragment() = router.navigateTo(Screens.patternLockFragment())
 
-    fun goToEnterPatternFragment() = router.newRootChain(Screens.enterPatternFragment())
+    fun goToEnterPatternFragment() = router.navigateTo(Screens.enterPatternFragment())
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.cardlinker.domain.models.Account
 import com.example.cardlinker.domain.usecases.*
 import com.example.cardlinker.presentation.base.BaseViewModel
-import com.example.cardlinker.util.concatPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -16,17 +15,18 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(
     private val insertAccountUseCase: InsertAccountUseCase,
     private val getAccountUseCase: GetAccountUseCase,
-    private val getCurrentEmailUseCase: GetCurrentEmailUseCase,
+    getCurrentEmailUseCase: GetCurrentEmailUseCase,
     private val insertCurrentEmailUseCase: InsertCurrentEmailUseCase,
     private val updateAccountPasswordUseCase: UpdateAccountPasswordUseCase,
     private val getAllAccountsUseCase: GetAllAccountsUseCase,
     private val loginAttemptUseCase: AccountLoginAttemptUseCase,
     private val isAccountExistUseCase: CheckIsAccountExistUseCase,
-    private val updateAccountDataUseCase: UpdateAccountDataUseCase
+    private val updateAccountDataUseCase: UpdateAccountDataUseCase,
+    private val deleteAccountUseCase: DeleteAccountUseCase
 ) : BaseViewModel() {
     private val currentEmailLiveData = MutableLiveData("")
     private val accountLiveData = MutableLiveData<Account?>(null)
-    private val isAccountExist = MutableLiveData<Boolean>(null)
+    private val isAccountExist = MutableLiveData<Boolean?>(null)
     private val isAnyAccountExist = MutableLiveData<Boolean>(false)
     private val isAccountAlreadyExist = MutableLiveData<Boolean?>(null)
 
@@ -42,12 +42,12 @@ class AccountViewModel @Inject constructor(
             getAllAccountsUseCase.execute()
                 .distinctUntilChanged()
                 .collect {
-                    for (i in it ) {
+                    for (i in it) {
                         if (i.email == currentEmailLiveData.value) {
-                            println("!")
                             accountLiveData.value = i
                         }
                     }
+                    println("$it $string")
                     isAnyAccountExist.value = (it.isNotEmpty())
                 }
         }
@@ -64,9 +64,11 @@ class AccountViewModel @Inject constructor(
                 }
         }
     }
+
     private fun clearAlreadyExistState() {
         isAccountAlreadyExist.value = null
     }
+
     fun isAccountAlreadyExist() = isAccountAlreadyExist
 
     fun isAnyAccountExist() = isAnyAccountExist
@@ -77,17 +79,25 @@ class AccountViewModel @Inject constructor(
             updateAccountPasswordUseCase.execute()
             accountLiveData.value = account.copy(encodedPassword = newEncodedPassword)
             currentEmailLiveData.value = account.email
-            Log.i("AccountViewModel", "Updating password: Account: $account, Value: ${accountLiveData.value}, Email: ${currentEmailLiveData.value}")
+            Log.i(
+                "AccountViewModel",
+                "Updating password: Account: $account, Value: ${accountLiveData.value}, Email: ${currentEmailLiveData.value}"
+            )
         }
     }
+
     fun updateAccountData(account: Account) {
         viewModelScope.launch {
             updateAccountDataUseCase.saveInput(account)
             updateAccountDataUseCase.execute()
             accountLiveData.value = account
-            Log.i("AccountViewModel", "Updating accountLivedata value: Account: $account, Value: ${accountLiveData.value}")
+            Log.i(
+                "AccountViewModel",
+                "Updating accountLivedata value: Account: $account, Value: ${accountLiveData.value}"
+            )
         }
     }
+
     fun setCurrentEmail(email: String) {
         viewModelScope.launch {
             insertCurrentEmailUseCase.saveInput(email)
@@ -95,12 +105,16 @@ class AccountViewModel @Inject constructor(
             currentEmailLiveData.value = email
         }
     }
+
     fun setAccount(account: Account) {
         viewModelScope.launch {
             insertAccountUseCase.saveInput(account)
             insertAccountUseCase.execute()
             accountLiveData.value = account
-            Log.i("AccountViewModel", "Setting to accountLivedata value: Account: $account, Value: ${accountLiveData.value}")
+            Log.i(
+                "AccountViewModel",
+                "Setting to accountLivedata value: Account: $account, Value: ${accountLiveData.value}"
+            )
         }
     }
 
@@ -109,29 +123,45 @@ class AccountViewModel @Inject constructor(
         currentEmailLiveData.value = null
     }
 
+    fun deleteAccount(email: String) {
+        viewModelScope.launch {
+            deleteAccountUseCase.saveInput(email)
+            accountLiveData.value = null
+            deleteAccountUseCase.execute()
+        }
+    }
+
     fun attemptToLogin(nickname: String, encodedPassword: String) {
         viewModelScope.launch {
             loginAttemptUseCase.saveInput(nickname, encodedPassword)
             loginAttemptUseCase.execute()
                 .distinctUntilChanged()
                 .collect {
-                    accountLiveData.value = it
-                    isAccountExist.value = (it != null)
+                    if (it != null) {
+                        accountLiveData.value = it
+                        isAccountExist.value = true
+                    } else {
+                        isAccountExist.value = false
+                    }
+                    isAccountExist.value = null
                 }
         }
     }
 
     fun isAccountExist() = isAccountExist
 
-    fun initAccount() {
+    private fun initAccount() {
         viewModelScope.launch {
-            val str = currentEmailLiveData.value?: ""
+            val str = currentEmailLiveData.value ?: ""
             getAccountUseCase.saveInput(str)
             getAccountUseCase.execute()
                 .distinctUntilChanged()
                 .collect {
                     accountLiveData.value = it
-                    Log.i("AccountViewModel", "Initializing accountLiveData: Account: $it, Value: ${accountLiveData.value}, Email is: $str")
+                    Log.i(
+                        "AccountViewModel",
+                        "Initializing accountLiveData: Account: $it, Value: ${accountLiveData.value}, Email is: $str"
+                    )
                 }
         }
     }

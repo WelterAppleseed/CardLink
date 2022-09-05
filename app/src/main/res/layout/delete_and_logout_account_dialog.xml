@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/stand_margin_5dp"
+    android:background="@drawable/dialog_small_corners">
+
+    <TextView
+        android:id="@+id/delete_acc_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/delete_account"
+        android:textSize="@dimen/stand_text_size_20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/stand_margin_10dp"/>
+    <TextView
+        android:id="@+id/delete_acc_tv_small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/this_action_cannot_be_undone"
+        android:textSize="@dimen/stand_text_size_16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/primaryRedColor"
+        app:layout_constraintTop_toBottomOf="@+id/delete_acc_tv_title"
+        android:layout_marginTop="@dimen/stand_margin_5dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/delete_account_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/stand_margin_15dp"
+        android:background="@drawable/delete_account_background_buttons"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/delete_acc_tv_small"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/primaryRedColor"
+        android:text="@string/delete"
+        app:layout_constraintStart_toEndOf="@+id/delete_account_cancel" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/delete_account_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/stand_margin_15dp"
+        android:background="@drawable/delete_account_background_buttons"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/delete_account_delete"
+        android:textColor="@color/white"
+        android:text="@string/cancel"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

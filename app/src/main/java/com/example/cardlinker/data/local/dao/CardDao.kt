@@ -19,4 +19,6 @@ interface CardDao {
     fun getLinkedToAccountCards(accountHashCode: Int): Flow<List<Card>>
     @Query("SELECT * FROM card WHERE accountHashCode=0")
     fun getNotLinkedToAccountCards(): Flow<List<Card>>
+    @Query("DELETE FROM card WHERE accountHashCode=:accountHashCode")
+    suspend fun deleteCards(accountHashCode: Int)
 }

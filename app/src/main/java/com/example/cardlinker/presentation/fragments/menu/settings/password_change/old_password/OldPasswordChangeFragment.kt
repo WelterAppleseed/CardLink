@@ -84,5 +84,6 @@ class OldPasswordChangeFragment :
         }
     }
     override var bottomNavigationViewVisibility: Int = View.GONE
+    override var topBarColor: Int = R.color.theme_background_color
     override var windowSoftInput: Int = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
 }

@@ -53,7 +53,8 @@
     <dimen name="banner_image_height">150dp</dimen>
     <dimen name="search_field_corners_rad">10dp</dimen>
     <dimen name="circle_indicator_height">40dp</dimen>
-
+    <dimen name="delete_account_small_dialog_height">150dp</dimen>
+    <dimen name="delete_account_small_dialog_width">250dp</dimen>
     <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">10sp</dimen>
 

@@ -39,16 +39,22 @@ class NewPasswordChangeFragment :
     }
     private fun initContinueButtons() {
         accountViewModel.getAccount().observe(viewLifecycleOwner) { account ->
-            binding.apply {
-                newChangePasswordContinueB.setOnClickListener {
-                    if (newChangePasswordEt.text.length >= 6) {
-                        val password = AESCrypt.encrypt(newChangePasswordEt.text.toString())
-                        accountViewModel.updateAccountPassword(account!!, password)
-                        userCardsViewModel.updateCardsWithAccountHashCode(account.copy(encodedPassword = password).hashCode(), account.hashCode())
-                        navigationViewModel.goToMenuFragment()
-                    } else {
-                        newChangePasswordEt.setBackgroundResource(R.drawable.change_password_wrong_password_b)
-                        smallPasswordTv.visibility = View.VISIBLE
+            if (account != null) {
+                binding.apply {
+                    newChangePasswordContinueB.setOnClickListener {
+                        if (newChangePasswordEt.text.length >= 6) {
+                            val password = AESCrypt.encrypt(newChangePasswordEt.text.toString())
+                            accountViewModel.updateAccountPassword(account, password)
+                            userCardsViewModel.updateCardsWithAccountHashCode(
+                                account.copy(
+                                    encodedPassword = password
+                                ).hashCode(), account.hashCode()
+                            )
+                            navigationViewModel.goToMenuFragment()
+                        } else {
+                            newChangePasswordEt.setBackgroundResource(R.drawable.change_password_wrong_password_b)
+                            smallPasswordTv.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
@@ -71,5 +77,6 @@ class NewPasswordChangeFragment :
     }
 
     override var bottomNavigationViewVisibility: Int = View.GONE
+    override var topBarColor: Int = R.color.theme_background_color
     override var windowSoftInput: Int = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
 }

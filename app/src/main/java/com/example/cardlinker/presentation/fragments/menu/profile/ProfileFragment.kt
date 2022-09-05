@@ -66,6 +66,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                     profileDataLayout.doesHaveAccountTv.text =
                         if (isAnyAccountExist) context?.getString(R.string.need_another) else
                             context?.getString(R.string.doesnt_have_account_quest)
+                    if (profileDataLayout.passwordEt.alpha == Constants.ALPHA_HALF_VISIBILITY) profileDataLayout.passwordEt.alpha =
+                        Constants.ALPHA_FULL_VISIBILITY
                     saveButton.text = context?.getString(R.string.login)
                 } else {
                     profileDataLayout.mailEt.visibility = View.VISIBLE
@@ -110,33 +112,36 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                     }
                 } else {
                     accountViewModel.isAnyAccountExist().observe(viewLifecycleOwner) {
-                        if (it != true) {
-                            binding.apply {
-                                profileDataLayout.passwordEt.enable()
-                                profileDataLayout.passwordEt.alpha = Constants.ALPHA_FULL_VISIBILITY
-                                profileDataLayout.nicknameEt.text.clear()
-                                profileDataLayout.mailEt.text.clear()
-                                profileDataLayout.passwordEt.text.clear()
-                                profileDataLayout.doesHaveAccountTv.visibility = View.VISIBLE
-                                saveButton.setText(R.string.register)
-                                updateToolbar(false)
-                            }
-                        } else {
-                            binding.apply {
-                                initLoginOrRegisterLayout(true)
-                                profileDataLayout.doesHaveAccountTv.performClick()
+                        if (it != null) {
+                            if (it != true) {
+                                binding.apply {
+                                    profileDataLayout.passwordEt.enable()
+                                    profileDataLayout.passwordEt.alpha =
+                                        Constants.ALPHA_FULL_VISIBILITY
+                                    profileDataLayout.nicknameEt.text.clear()
+                                    profileDataLayout.mailEt.text.clear()
+                                    profileDataLayout.passwordEt.text.clear()
+                                    profileDataLayout.doesHaveAccountTv.visibility = View.VISIBLE
+                                    saveButton.setText(R.string.register)
+                                    updateToolbar(false)
+                                }
+                            } else {
+                                binding.apply {
+                                    initLoginOrRegisterLayout(true)
+                                    profileDataLayout.doesHaveAccountTv.performClick()
+                                }
                             }
                         }
                     }
                 }
                 binding.apply {
-                    if (profileDataLayout.doesHaveAccountTv.text == context?.getString(R.string.already_have_account_quest)) {
-                        saveButton.setOnClickListener {
+                    saveButton.setOnClickListener {
+                        if (profileDataLayout.doesHaveAccountTv.text == context?.getString(R.string.already_have_account_quest)) {
                             if (profileDataLayout.nicknameEt.text.isNotEmpty() && profileDataLayout.mailEt.text.isNotEmpty() && profileDataLayout.passwordEt.text.length >= 6) {
                                 if (account != null) {
                                     updateAccount(account)
                                 } else {
-                                    insertAccount(account)
+                                    insertAccount()
                                 }
                             } else {
                                 binding.profileDataLayout.apply {
@@ -145,25 +150,25 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                                     }
                                 }
                             }
-                        }
-                    } else {
-                        accountViewModel.isAccountExist()
-                            .observe(viewLifecycleOwner) { accountExist ->
-                                saveButton.setOnClickListener {
-                                    if (profileDataLayout.nicknameEt.text.isNotEmpty() && profileDataLayout.passwordEt.text.isNotEmpty()) {
-                                        accountViewModel.attemptToLogin(
-                                            profileDataLayout.nicknameEt.text.toString(),
-                                            AESCrypt.encrypt(profileDataLayout.passwordEt.text.toString())
-                                        )
-                                        if (accountExist) {
-                                            userAppearanceViewModel.updateLoginState(true)
-                                            navigationViewModel.goToMenuFragment()
-                                        } else {
-                                            profileDataLayout.passwordEt.isWrong()
+                        } else {
+                            if (profileDataLayout.nicknameEt.text.isNotEmpty() && profileDataLayout.passwordEt.text.isNotEmpty()) {
+                                accountViewModel.attemptToLogin(
+                                    profileDataLayout.nicknameEt.text.toString(),
+                                    AESCrypt.encrypt(profileDataLayout.passwordEt.text.toString())
+                                )
+                                accountViewModel.isAccountExist()
+                                    .observe(viewLifecycleOwner) { accountExist ->
+                                        if (accountExist != null) {
+                                            if (accountExist) {
+                                                userAppearanceViewModel.updateLoginState(true)
+                                                navigationViewModel.goToMenuFragment()
+                                            } else {
+                                                profileDataLayout.passwordEt.isWrong()
+                                            }
                                         }
                                     }
-                                }
                             }
+                        }
                     }
                 }
             }
@@ -184,7 +189,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                             accountViewModel.updateAccountData(
                                 updatedAccount
                             )
-                            userCardsViewModel.updateCardsWithAccountHashCode(updatedAccount.hashCode(), account.hashCode())
+                            userCardsViewModel.updateCardsWithAccountHashCode(
+                                updatedAccount.hashCode(),
+                                account.hashCode()
+                            )
                             navigationViewModel.goToMenuFragment()
                         }
                     } else {
@@ -195,11 +203,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         }
     }
 
-    private fun insertAccount(account: Account?) {
+    private fun insertAccount() {
         binding.apply {
             userCardsViewModel.getNotLinkedCardCodes()
                 .observe(viewLifecycleOwner) { codes ->
-                    val encodedPassword = AESCrypt.encrypt(profileDataLayout.passwordEt.text.toString())
+                    val encodedPassword =
+                        AESCrypt.encrypt(profileDataLayout.passwordEt.text.toString())
                     val registeredAccount = Account(
                         nickname = profileDataLayout.nicknameEt.text.toString(),
                         email = profileDataLayout.mailEt.text.toString(),
@@ -213,6 +222,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                         Constants.ACCOUNT_IS_NULL
                     )
                 }
+            println("131zxcvzxcvvvvvvvvvvvvvvvvvvvvv")
             userAppearanceViewModel.updateLoginState(true)
             navigationViewModel.goToMenuFragment()
         }

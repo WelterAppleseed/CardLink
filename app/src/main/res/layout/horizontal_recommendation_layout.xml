@@ -32,7 +32,8 @@
         android:id="@+id/recommendation_recycler"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/stand_margin_10dp"
-        android:layout_height="wrap_content"
+        android:layoutAnimation="@anim/recycler_fade_animation"
+        android:layout_height="@dimen/recycler_card_height"
         app:layout_constraintTop_toBottomOf="@+id/recommendation_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

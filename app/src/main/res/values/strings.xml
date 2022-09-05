@@ -65,4 +65,7 @@
     <string name="pattern_login_small">To log in to the application</string>
     <string name="pattern_login">Set a pattern</string>
     <string name="input_pattern">Input pattern</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="delete">Delete</string>
+    <string name="this_action_cannot_be_undone">This action cannot be undone</string>
 </resources>

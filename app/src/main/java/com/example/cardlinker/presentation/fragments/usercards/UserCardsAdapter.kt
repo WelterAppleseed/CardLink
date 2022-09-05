@@ -16,6 +16,8 @@ class UserCardsAdapter(private val cardList: List<Card>, onCardClicked: OnCardCl
     inner class ViewHolder(private val binding: ItemCardRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(card: Card) {
+            println(card.style)
+            println(card.background)
             binding.cardItem.apply {
                 background = ResourcesCompat.getDrawable(
                     resources,

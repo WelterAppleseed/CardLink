@@ -46,7 +46,7 @@ class CardsManagementFragment :
                             userCardsViewModel.initLinkedCards(account.hashCode())
                             userCardsViewModel.getLinkedCards()
                                 .observe(viewLifecycleOwner) { cards ->
-                                    if (cards.isNotEmpty()) {
+                                    if (cards != null && cards.isNotEmpty()) {
                                         smallCardsLayout.enable()
                                         noCardsLayout.root.visibility = View.GONE
                                         smallCardsLayout.withAnimatedScrolling()

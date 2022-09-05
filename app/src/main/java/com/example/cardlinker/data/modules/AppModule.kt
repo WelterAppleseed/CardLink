@@ -72,11 +72,19 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideDeleteAccountRepository(accountDao: AccountDao): DeleteAccountRepository = DeleteAccountRepositoryImpl(accountDao)
+
+    @Provides
+    @Singleton
     fun provideGetNotLinkedCardsRepository(cardDao: CardDao): GetNotLinkedCardsRepository = GetNotLinkedCardsRepositoryImpl(cardDao)
 
     @Provides
     @Singleton
     fun provideGetLinkedCardRepository(cardDao: CardDao): GetLinkedCardsRepository = GetLinkedCardsRepositoryImpl(cardDao)
+
+    @Provides
+    @Singleton
+    fun provideDeleteCardsRepository(cardDao: CardDao): DeleteCardsRepository = DeleteCardsRepositoryImpl(cardDao)
 
     @Provides
     @Singleton

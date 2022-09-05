@@ -1,5 +1,9 @@
 package com.example.cardlinker.util.objects
 
+import android.transition.Slide
+import android.view.Gravity
+import androidx.fragment.app.FragmentFactory
+import com.example.cardlinker.R
 import com.example.cardlinker.presentation.fragments.usercards.camera.CameraFragment
 import com.example.cardlinker.presentation.fragments.enter_banners.EnterBannersFragment
 import com.example.cardlinker.presentation.fragments.enter_pattern.EnterPatternFragment
